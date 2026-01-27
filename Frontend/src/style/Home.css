@@ -1,0 +1,124 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: transparent; /* Transparente para ver el carrusel de fondo */
+}
+
+#root {
+  background-color: transparent;
+}
+
+.home-container {
+  max-width: 1000px;
+  margin: auto;
+  padding: 2rem;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  letter-spacing: 0.5px;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.home-container h1 { /*Bienvenido Estilos*/
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: #fffbfb;
+  text-shadow:1px 1px 3px rgba(0, 0, 0, 0.1) ;
+}
+
+.home-container h2 { /*Nombre del Usuario Estilos*/
+  font-size: 2.5rem;
+  color: #fdfafa;
+  font-style: italic;
+  margin-bottom: 25px;
+}
+.feed h3 { /*Feed de publicaciones Estilos*/
+  font-size: 1.4rem;
+  color: #fafafa;
+  font-weight: bold;
+  margin: 10px;
+}
+.feed h3 i{/*Feed de publicaciones Icono Estilos*/
+  font-size: 1.4rem;
+  color: #f1f1f1;
+}
+
+.logout-btn {
+  padding: 0.6rem 1.2rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.2s ease;
+}
+
+.logout-btn:hover {
+  background-color: #c0392b;
+}
+.feature-box {
+  background-color: #f0f4ff;
+  border: 1px solid #c6d2ff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem auto 2rem;
+  max-width: 600px;
+  text-align: left;
+}
+
+.quick-links {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.action-btn {
+  background-color: #3498db;
+  color: white;
+  padding: 0.7rem 1.4rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.action-btn:hover {
+  background-color: #2980b9;
+}
+
+/* Crear nueva publicación */
+.btn-publicar {
+  background: linear-gradient(to right, #007bff, #00bcd4); /* Degradado azul-turquesa */
+  color: white;
+  font-weight: bold;
+  padding: 10px 25px;
+  border: none;
+  border-radius: 30px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+.btn-publicar:hover {
+  background: linear-gradient(to right, #0056b3, #0097a7); /* más oscuro al pasar el mouse */
+  transform: scale(1.05);
+}
+
+.home-container h1, .home-container h2 {
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+.loading-text {
+  color: white;
+  font-weight: bold;
+  font-size: 1.2rem;
+}

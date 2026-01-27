@@ -1,0 +1,206 @@
+.crear-post-form { /*Formulario para crear Post*/
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  max-width: 600px;
+  margin: auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.crear-post-form textarea,
+.crear-post-form input,
+.crear-post-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.crear-post-form button {
+  padding: 0.6rem;
+  background-color: #0077cc;
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.crear-post-form button:hover {
+  background-color: #005fa3;
+}
+
+
+.banner-success { /* Banner de éxito */
+  background-color: #d4edda;
+  color: #155724;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #c3e6cb;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.banner-error { /* Banner de error */
+  background-color: #f8d7da;
+  color: #721c24;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid #f5c6cb;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.banner-success,
+.banner-error {
+  transition: opacity 0.5s ease-in-out;
+}
+
+/* Boton de Volver a Home */
+.btn-volver-home {
+
+  margin-top: 2rem;
+  background: linear-gradient(45deg, #0077cc, #005fa3);
+  color: white;
+  padding: 10px 25px;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.btn-volver-home:hover {
+  background: linear-gradient(45deg, #005fa3, #0077cc);
+  transform: scale(1.05)
+}
+
+
+/* Titulo de la Publicación */
+.post-detail-container h2 {
+  font-size: 2rem;
+  color: #333;
+  font-weight: bold;
+  position: relative;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+.post-detail-container h2::after {
+  content: "";
+  display: block;
+  width: 60%;
+  height: 4px;
+  background-color: #0077cc;
+  margin-top: 5px;
+  border-radius: 2px;
+}
+
+/* Estilos para la vista previa de imagen */
+.image-preview {
+  position: relative;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+.image-preview img {
+  max-width: 100%;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.remove-image-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.remove-image-btn:hover {
+  background: rgba(255, 0, 0, 1);
+}
+
+/* Estilos para etiquetas */
+.etiquetas-section {
+  margin-top: 15px;
+}
+
+.etiquetas-section label {
+  font-weight: bold;
+  margin-bottom: 5px;
+  display: block;
+}
+
+.etiquetas-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.etiqueta-badge {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background: #f9f9f9;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.etiqueta-badge input {
+  margin-right: 5px;
+}
+
+.etiqueta-badge.selected {
+  background: #0077cc;
+  color: white;
+  border-color: #0077cc;
+}
+
+.etiqueta-badge:hover {
+  background: #e0e0e0;
+}
+
+.etiqueta-badge.selected:hover {
+  background: #005fa3;
+}
+
+/* Estilos para URLs de imágenes */
+.image-urls-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.url-input-group {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-remove-url {
+  background-color: #dc3545 !important;
+  padding: 0.5rem 1rem !important;
+  width: auto;
+}
+
+.btn-remove-url:hover {
+  background-color: #c82333 !important;
+}
+
+.btn-add-url {
+  background-color: #6c757d !important;
+  margin-top: 5px;
+  align-self: flex-start;
+}

@@ -1,0 +1,24 @@
+[{
+    "nombre": "Juan Perez",
+    "email": "juan.perez@example.com",
+    "contraseña": "123456"
+},
+{
+    "descripcion": "Este es el contenido de mi publicación.",
+    "fechaDePublicacion": "1990-05-25"
+},
+{
+    "nombre": "programacion"
+},
+{
+    "contenido": "Muy buen post!",
+    "fechaDeComentario": "1990-05-25"
+},
+{
+    "url": "https://ejemplo.com/imagen1.jpg",
+    "publicacionId": 1
+},
+{
+    "publicacionId": 1,
+    "etiquetaId": 3
+}]

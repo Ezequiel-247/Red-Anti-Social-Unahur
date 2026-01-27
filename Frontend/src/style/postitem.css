@@ -1,0 +1,143 @@
+.post-item {
+  border: 1px solid #ccc;
+  padding: 10px;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  background-color: #fafafa;
+}
+
+.post-item .post-img {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+.tag {
+  display: inline-block;
+  background-color: #e0e0e0;
+  padding: 4px 8px;
+  border-radius: 10px;
+  margin-right: 6px;
+  margin-top: 5px;
+  font-size: 0.85rem;
+}
+.post-images {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.detalle-img {
+  max-width: 100%;
+  border-radius: 6px;
+  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  object-fit: cover;
+}
+
+/* Boton de Ver mas */
+.btn-ver-mas {
+  font-weight: bold;
+  border-radius: 10px;
+  padding: 10px 20px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+.icono-vermas {
+  margin-right: 5px;
+  color: white !important;
+}
+.btn-ver-mas:hover {
+  transform: scale(1.05);
+}
+
+.btn-ver-comentarios {
+  font-weight: bold;
+  border: none;
+  color: #007bff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 5px 0;
+  margin-top: 8px;
+  text-decoration: underline;
+  display: inline-block;
+  font-weight: 500;
+}
+
+.btn-ver-comentarios:hover {
+  color: #023c7a;
+}
+
+.comment-item {
+  font-size: 0.9rem;
+  margin: 8px 0;
+  padding: 8px 12px;
+  background-color: #f0f2f5; /* Color de fondo suave para el comentario */
+  border-radius: 15px;       /* Bordes redondeados */
+  color: #333;
+}
+
+/* --- ACCIONES DEL POST (Like, Comentarios, Eliminar) --- */
+.post-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacio entre el corazón y el texto de comentarios */
+  width: 100%; /* Asegura que ocupe todo el ancho para que el margin-left funcione */
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid #eee;
+}
+
+.post-actions-right {
+  margin-left: auto; /* ESTO ES LA CLAVE: Empuja el contenido a la derecha */
+  display: flex;
+  gap: 10px;
+}
+
+/* Botón de Like */
+.btn-like {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: transform 0.2s, color 0.2s;
+}
+
+.btn-like:hover {
+  transform: scale(1.1);
+}
+
+/* ESTADO ACTIVO: Corazón Rojo */
+.btn-like.liked, 
+.btn-like.liked i {
+  color: #e0245e; /* Rojo */
+}
+
+.like-count {
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.comments-count {
+  margin: 0;
+  color: #6c757d;
+  font-size: 0.9rem;
+}
+
+.btn-delete {
+  background: none;
+  border: none;
+  color: #dc3545;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.btn-delete:hover {
+  color: #a71d2a;
+}

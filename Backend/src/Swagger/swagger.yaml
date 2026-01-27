@@ -1,0 +1,429 @@
+openapi: 3.0.0
+info:
+  title: Red Anti-Social
+  version: "1.0.0"
+  description: Documentacion de la API para la red anti-social
+servers:
+  - url: "localhost:3000"
+    description: Server
+  - url: "localhost:3000"
+    description: Local
+components:
+  schemas:
+  
+    Usuario:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: usuario1
+        email:
+          type: string
+          example: usuario@example.com
+        contraseña:
+          type: string
+          example: 'edp2025'
+          
+    Publicacion:
+      type: object
+      properties:
+        descripcion:
+          type: string
+          example: Este es un nuevo publicacion
+        fechaDePublicacion: 
+          type: string
+          format: date-time
+          example: '2023-10-01T12:00:00Z'
+    Comentario:
+      type: object
+      properties:
+        contenido:
+          type: string
+          example: Este es un comentario.
+        fechaDeComentario:
+          type: string
+          format: date-time
+          example: '2023-10-01T12:00:00Z'
+          
+    Etiqueta:
+      type: object
+      properties:
+        nombre:
+          type: string
+          example: Etiqueta1
+    
+    Imagen:
+      type: object
+      properties:
+        ruta:
+          type: string
+          example: "/uploads/imagenes-1620123456789.jpg"
+          
+paths:
+  /usuario:
+    get:
+      summary: Obtener todos los usuarios
+      tags:
+        - Usuario
+      responses:
+        '200':
+          description: Lista de usuarios
+        '204':
+          description: No hay contenido
+        '404':
+          description: No se encontraron usuarios
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Crear un nuevo usuario
+      tags:
+        - Usuario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+        '400':
+          description:  Datos inválidos
+  /usuario/{id}:
+    put:
+      summary: Actualizar un usuario por ID
+      tags:
+        - Usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Usuario'
+      responses:
+        '201':
+          description: Usuario actualizado exitosamente
+        '400':
+          description:  Datos inválidos
+        '500':
+          description: Error interno del servidor
+        '404':
+          description: Usuario no encontrado
+    delete:
+      summary: Eliminar un usuario por ID
+      tags:
+        - Usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Usuario eliminado exitosamente
+        '404':
+          description: Usuario no encontrado
+          
+  /publicacion:
+    get:
+      summary: Obtener todas las publicaciones
+      tags:
+        - Publicacion
+      parameters:
+        - name: usuarioId
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Filtrar publicaciones por ID de usuario
+      responses:
+        '200':
+          description: Lista de publicaciones
+        '204':
+          description: No hay contenido
+        '404':
+          description: No se encontraron publicaciones
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Crear una nueva publicacion
+      tags:
+        - Publicacion
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: integer
+                  example: 1
+                content:
+                  type: string
+                  example: Esta es una nueva publicacion
+                imagenes:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: 'Imagenes a subir (hasta 5, opcional). Formatos aceptados: JPG, PNG, GIF. Tamaño mÃ¡ximo: 5MB por archivo.'
+              required:
+                - userId
+                - content
+      responses:
+        '201':
+          description: Publicacionn creada exitosamente
+        '400':
+          description: Los campos "userId" y "content" son obligatorios
+        '413':
+          description: La imagen es demasiado pesada
+        '415':
+          description: Tipo de archivo no permitido (solo se permiten imagenes)
+        '500':
+          description: Error al crear la publicacion
+  /publicacion/{id}:
+    put:
+      summary: Actualizar una publicacion por ID
+      tags:
+        - Publicacion
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Publicacion'
+      responses:
+        '201':
+          description: Publicacion actualizada exitosamente
+        '400':
+          description: Solicitud incorrecta
+        '404':
+          description: Publicacion no encontrada
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar una publicacionn por ID
+      description: Elimina una publicacion y todos sus recursos asociados (comentarios, etiquetas, imagenes)
+      tags:
+        - Publicacion
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Publicacion eliminada exitosamente junto con todos sus recursos asociados
+        '404':
+          description: Publicacion no encontrada
+        '500':
+          description: Error interno del servidor
+  /comentario:
+    get:
+      summary: Obtener todos los comentarios
+      tags:
+        - Comentario
+      responses:
+        '200':
+          description: Lista de comentarios
+        '204':
+          description: No hay contenido
+        '404':
+          description: No se encontraron comentarios
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Crear un nuevo comentario
+      tags:
+        - Comentario
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comentario'
+      responses:
+        '201':
+          description: Comentario creado exitosamente
+          
+  /comentario/{id}:
+    put:
+      summary: Actualizar un comentario por ID
+      tags:
+        - Comentario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comentario'
+      responses:
+        '201':
+          description: Comentario actualizado exitosamente
+        '400':
+          description: Solicitud incorrecta
+        '404':
+          description: Comentario no encontrado
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar un comentario por ID
+      tags:
+        - Comentario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '204':
+          description: Comentario eliminado exitosamente
+        '404':
+          description: Comentario no encontrado
+        '500':
+          description: Error interno del servidor
+          
+  /Etiqueta:
+    get:
+      summary: Obtener todas las etiquetas
+      tags:
+        - Etiqueta
+      responses:
+        '200':
+          description: Lista de etiquetas
+        '204':
+          description: No hay contenido
+        '404':
+          description: No se encontraron etiquetas
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Crear una nueva etiqueta
+      tags:
+        - Etiqueta
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Etiqueta'
+      responses:
+        '201':
+          description: Etiqueta creada exitosamente
+          
+  /etiqueta/{id}:
+    put:
+      summary: Actualizar una etiqueta por ID
+      tags:
+        - Etiqueta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a actualizar
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Etiqueta'
+      responses:
+        '201':
+          description: Etiqueta actualizada exitosamente
+        '400':
+          description: Solicitud incorrecta
+        '404':
+          description: Etiqueta no encontrada
+        '500':
+          description: Error interno del servidor
+    delete:
+      summary: Eliminar una etiqueta por ID
+      tags:
+        - Etiqueta
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID de la etiqueta a eliminar
+      responses:
+        '204':
+          description: Etiqueta eliminada exitosamente
+        '404':
+          description: Etiqueta no encontrada
+        '500':
+          description: Error interno del servidor
+  
+  
+  /Imagen:
+    get:
+      summary: Obtener todas las imagenes
+      tags:
+        - Imagen
+      responses:
+        '200':
+          description: Listado de archivos
+        '204':
+          description: No hay archivos
+        '500':
+          description: Error interno del servidor
+    post:
+      summary: Crear nueva imagen
+      tags:
+        - Imagen
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                postId:
+                  type: integer
+                  example: 1
+                  description: ID del post al que asociar las imÃ¡genes
+                imagenes:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: 'Imagenes a subir (hasta 5). Formatos aceptados: JPG, PNG, GIF. TamaÃ±o mÃ¡ximo: 5MB por archivo.'
+              required:
+                - postId
+                - imagenes
+      responses:
+        '201':
+          description: Archivos creados exitosamente
+        '400':
+          description: El campo "postId" es obligatorio o no se han proporcionado archivos
+        '413':
+          description: El archivo es demasiado grande (mÃ¡ximo 5MB)
+        '415':
+          description: Tipo de archivo no permitido (solo se permiten imagenes)
+        '500':
+          description: Error al crear la imagen

@@ -1,0 +1,220 @@
+/* Estilos Globales del Layout */
+html, body {
+  min-height: 100vh;
+  margin: 0;
+  background-color: transparent; /* IMPORTANTE: Transparente para ver el carrusel */
+}
+
+#root {
+  background-color: transparent;
+}
+
+.layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+main {
+  padding-top: 100px; 
+  flex: 1;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    z-index: 1000;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(49, 78, 185, 0.356) !important; 
+    backdrop-filter: blur(5px);
+    color: white;
+}
+
+.navbar-brand {
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 1.5rem;
+  color: white !important;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar-logo {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
+}
+
+.navbar-nav {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-link {
+  color: white !important;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.nav-link:hover {
+  transform: scale(1.05);
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
+}
+
+/* Botón hamburguesa (Mobile) */
+.navbar-toggler {
+  border: none;
+  background: transparent;
+}
+
+/* Footer */
+.footer {
+  background-color: rgba(64, 101, 234, 0.151);
+  backdrop-filter: blur(5px);
+  color: white;
+  padding: 1.5rem 0;
+  margin-top: auto;
+  text-align: center;
+  width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: row; /* Alineación horizontal (texto al lado de iconos) */
+  justify-content: center;
+  align-items: center;
+  gap: 20px; 
+  flex-wrap: wrap; 
+}
+
+.footer-content p {
+  font-weight: bold;
+  margin: 0; 
+}
+.social-icons {
+  display: flex;
+  gap: 20px;
+  font-size: 1.8rem;
+  align-items: center;
+}
+
+.social-icons a {
+  color: white; 
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s ease;
+}
+
+.social-icons a:hover {
+  transform: scale(1.2); 
+}
+
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Aplicar animación a los contenedores principales de las vistas */
+.home-container,
+.post-detail-container,
+.login-container {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+/* --- ESTILOS MENÚ HAMBURGUESA (SIDEBAR) --- */
+
+/* Fondo oscuro detrás del menú */
+.menu-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 999; /* Debajo del navbar pero encima del contenido */
+  backdrop-filter: blur(2px);
+}
+
+@media (max-width: 991px) {
+  /* Navbar más sólido en celular para que se distinga */
+  .navbar {
+    background-color: #314eb9 !important; /* Azul sólido y visible */
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  /* Transformar el menú colapsable en un Sidebar lateral */
+  .navbar-collapse {
+    position: fixed;
+    top: 0;
+    right: -260px; /* Oculto a la derecha */
+    width: 260px;
+    height: 100vh;
+    background-color: #1a2a6c; /* Azul oscuro elegante para el menú */
+    display: flex !important; /* Sobrescribimos el display:none de bootstrap */
+    flex-direction: column;
+    padding-top: 80px; /* Espacio superior */
+    transition: right 0.3s cubic-bezier(0.77, 0.2, 0.05, 1.0); /* Animación suave */
+    box-shadow: -5px 0 15px rgba(0,0,0,0.5);
+    z-index: 1000; /* Al mismo nivel que el navbar */
+  }
+
+  .navbar-collapse.show {
+    right: 0; /* Se desliza hacia adentro */
+  }
+
+  .navbar-nav {
+    width: 100%;
+    align-items: center;
+    gap: 20px;
+  }
+}
+
+/* Imagen principal del post en el feed */
+.post-img {
+  width: 500px;
+  height: 400px;       /* Altura fija para que todos los posts midan lo mismo */
+  object-fit: cover;   /* "Recorta" la imagen para llenar el espacio sin estirarla */
+  border-radius: 8px;
+  margin-top: 10px;
+  background-color: #f0f0f0; /* Fondo gris suave mientras carga */
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Contenedor de imágenes en la vista de detalle (Grid) */
+.post-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Grid responsivo */
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.detalle-img {
+  width: 100%;
+  height: 200px;       /* Cuadrados uniformes en el detalle */
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.detalle-img:hover {
+  transform: scale(1.02);
+}
