@@ -18,7 +18,6 @@ API RESTful desarrollada con **Node.js** y **Express** para gestionar la lógica
    Asegúrate de tener un archivo `.env` en la raíz del proyecto con el siguiente contenido:
    ```env
    PORT=3001
-   JWT_SECRET=tu_clave_secreta_segura
    ```
 
 2. **Instalación de Dependencias:**
