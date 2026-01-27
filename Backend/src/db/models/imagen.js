@@ -13,14 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       //Relacion con la tabla Publicacion.
       
       this.belongsTo(models.Publicacion,{
-        foreignKey: "publicacionId", //esta bien
+        foreignKey: "publicacionId", 
         as: "publicacion"
       })
     }
   }
   Imagen.init({
     ruta: {
-      type: DataTypes.TEXT, // Cambiado a TEXT para base64 largos
+      type: DataTypes.TEXT, 
       allowNull: false,
       validate:{
         notEmpty: true // Solo valida que no esté vacío

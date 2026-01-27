@@ -18,8 +18,6 @@ module.exports = (sequelize, DataTypes) => {
 
       //Relacion con tabla comentario -> corregido
       this.hasMany(models.Comentario,{
-        //foreignKey: "idComentario", ->>>>pone como clave foranea la pk de la misma tabla
-        //as: "comentario"
         foreignKey: "usuarioId",
         as: "comentarios"
       });
@@ -31,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       // Relacion N:M (Muchos a Muchos) conceptual
-      // Esto usa tu tabla 'Reaccion' como puente.
       this.belongsToMany(models.Publicacion, {
         through: models.Reaccion,      // Usamos tu modelo Reaccion como intermediario
         foreignKey: "usuarioId",

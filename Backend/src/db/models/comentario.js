@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
         as: "usuario"
       });
       //Relacion con tabla publicacion
-      this.belongsTo(models.Publicacion,{ //esta bien
+      this.belongsTo(models.Publicacion,{ 
         foreignKey: "publicacionId",
         as: "publicacion"
       });

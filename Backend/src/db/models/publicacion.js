@@ -18,23 +18,19 @@ module.exports = (sequelize, DataTypes) => {
 
       //Relacion con la tabla Comentario. --- corregido
       this.hasMany(models.Comentario,{
-       // foreignKey: "idComentario",   -> lo mismo que abajo
-        //as: "comentario"
         foreignKey: "publicacionId",
         as: "comentarios"
       });
 
       //corregido
       this.hasMany(models.Imagen,{ 
-        //foreignKey: "idImagen",   -> es redundante usar la id de la imagen en la misma tabla
-        //as: "Imagen"
         foreignKey: "publicacionId",
         as: "imagenes"
       });
 
       //Relacion con la tabla etiqueta N a N 
       this.belongsToMany(models.Etiqueta,{
-        through: "PublicacionEtiqueta", // Nombre de la tabla intermedia
+        through: "PublicacionEtiqueta",
         foreignKey: "publicacionId",
         otherKey: "etiquetaId",
         as: "etiquetas"    
