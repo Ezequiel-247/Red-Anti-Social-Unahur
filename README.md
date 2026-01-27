@@ -32,6 +32,7 @@ El siguiente diagrama representa la estructura de nuestra base de datos, destaca
 ![Diagrama Entidad-Relación](./Diagrama_sin_título.drawio.png)
 
 ## 🚀 Instalación y Configuración
+<img width="1011" height="472" alt="Modelo_de_base_de_datos(DER)" src="https://github.com/user-attachments/assets/038692cd-56d3-4442-a900-9ed627d318cb" />
 
 ### 1. Clonar el repositorio
 ```bash
