@@ -5,36 +5,47 @@
 ![Express](https://img.shields.io/badge/Express.js-000000?style=flat&logo=express&logoColor=white)
 ![Sequelize](https://img.shields.io/badge/Sequelize-52B0E7?style=flat&logo=sequelize&logoColor=white)
 
-Este es un proyecto de red social desarrollado como parte de la formación en la Universidad Nacional de Hurlingham (UNAHUR). La plataforma permite a los usuarios interactuar a través de publicaciones, imágenes, comentarios y reacciones.
+Proyecto de red social desarrollado para la **Tecnicatura Universitaria en Programación (UNAHUR)**. La plataforma permite una interacción dinámica entre usuarios mediante un sistema de publicaciones, gestión de imágenes y feedback social.
 
-## 📌 Características
-- **Gestión de Usuarios:** Registro, login y perfiles únicos.
-- **Publicaciones:** Sistema de posteos con soporte para imágenes.
-- **Interacción:** Sistema de "Reacciones" (N:M) y Comentarios (1:N).
-- **Etiquetado:** Organización de contenido mediante etiquetas (N:M).
+## 📱 Interfaz de la Aplicación
+La plataforma cuenta con un diseño responsivo y moderno, enfocado en la experiencia de usuario (UX).
 
-## 🛠️ Tecnologías Utilizadas
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/951c31d0-fb5c-4e4c-8a5f-8708cc34d87f" width="100%" alt="Vista Principal de la App" />
+</p>
 
-### Backend
-- **Node.js** & **Express** para el servidor API REST.
-- **Sequelize ORM** para la gestión de la base de datos.
-- **Bcrypt** para la encriptación de contraseñas.
-- **Dotenv** para la gestión de variables de entorno.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/d24390f8-ccf8-4acc-a000-ceba5ac1a0fe" width="48%" />
+  <img src="https://github.com/user-attachments/assets/d2f7ddef-269b-4f54-ae37-c2c5a69a03a4" width="48%" />
+</p>
 
-### Frontend
-- **JavaScript** (Vanilla/Modern) para la lógica de cliente.
-- **CSS3** para el diseño y estilos.
-- **HTML5** para la estructura de la interfaz.
+## 📌 Características Principales
+- **Gestión de Usuarios:** Registro, login y validación de perfiles únicos.
+- **Publicaciones Multimedia:** Sistema de posteos con soporte para múltiples imágenes (1:N).
+- **Interacción Social:** Sistema de "Reacciones" (N:M) y Comentarios (1:N) vinculados tanto al usuario como al post.
+- **Organización:** Clasificación de contenido mediante etiquetas mediante tablas intermedias (N:M).
 
 ## 📊 Arquitectura de Datos (DER)
-El siguiente diagrama representa la estructura de nuestra base de datos, destacando la separación entre la autoría de publicaciones y las interacciones de los usuarios.
+El modelo relacional fue diseñado para separar estrictamente la **autoría** de la **interacción**, permitiendo un sistema de reacciones escalable y eficiente.
 
-![Diagrama Entidad-Relación](./Diagrama_sin_título.drawio.png)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/038692cd-56d3-4442-a900-9ed627d318cb" alt="Modelo de base de datos (DER)" width="80%" />
+</p>
 
-## 🚀 Instalación y Configuración
-<img width="1011" height="472" alt="Modelo_de_base_de_datos(DER)" src="https://github.com/user-attachments/assets/038692cd-56d3-4442-a900-9ed627d318cb" />
+## 🛠️ Stack Tecnológico
 
-### 1. Clonar el repositorio
-```bash
-git clone [https://github.com/Ezequiel-247/Red-Anti-Social-Unahur.git](https://github.com/Ezequiel-247/Red-Anti-Social-Unahur.git)
-cd Red-Anti-Social-Unahur
+### Backend
+- **Node.js & Express:** Servidor API RESTful.
+- **Sequelize ORM:** Gestión y modelado de la base de datos relacional.
+- **Bcrypt:** Seguridad y hash de contraseñas de hasta 100 caracteres.
+
+### Frontend
+- **Arquitectura Limpia:** Uso de JavaScript moderno, HTML5 y CSS3 para una interfaz fluida sin dependencias pesadas.
+
+## 📂 Estructura del Repositorio
+- `/Backend`: Modelos, controladores y configuración de la base de datos (Sequelize).
+- `/Frontend`: Vistas y lógica del lado del cliente.
+
+---
+**Autor:** [Ezequiel](https://github.com/Ezequiel-247) 🇦🇷  
+*Desarrollador Full Stack enfocado en Backend*.
