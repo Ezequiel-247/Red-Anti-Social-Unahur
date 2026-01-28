@@ -22,9 +22,10 @@
 
 .post-images img {
   width: 100%;
-  max-width: 300px;
+  max-width: 100%;
+  height: auto;
   border-radius: 6px;
-  object-fit: cover;
+  object-fit: contain;
   border: 1px solid #ddd;
 }
 
