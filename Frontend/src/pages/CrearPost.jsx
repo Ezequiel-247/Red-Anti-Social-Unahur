@@ -65,6 +65,9 @@ const CrearPost = () => {
       // Crear el post
       const resPost = await fetch(API_ROUTES.POSTS, {
         method: "POST",
+        headers: {
+          "Authorization": `Bearer ${user.token}`
+        },
         body: formData,
       });
 
