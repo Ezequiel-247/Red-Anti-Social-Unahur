@@ -2,7 +2,7 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState, useContext} from "react";
 import { UserContext } from "../context/UserContext"; 
 import PostItem from "../components/PostItem";
-import "../style/PostDetail.css"; // Asegúrate de tener este archivo creado
+import "../style/PostDetail.css"; 
 
 const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
 
