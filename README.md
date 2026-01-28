@@ -1,4 +1,4 @@
-# Red Anti-Social (UNAHUR) 🚀
+# Red Anti-Social (UNAHUR) 
 
 ![Status](https://img.shields.io/badge/Status-En%20Desarrollo-green)
 ![NodeJS](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
@@ -7,7 +7,7 @@
 
 Proyecto de red social desarrollado para la **Tecnicatura Universitaria en Programación (UNAHUR)**. La plataforma permite una interacción dinámica entre usuarios mediante un sistema de publicaciones, gestión de imágenes y feedback social.
 
-## 📱 Interfaz de la Aplicación
+## Interfaz de la Aplicación
 La plataforma cuenta con un diseño responsivo y moderno, enfocado en la experiencia de usuario (UX).
 
 <div align="center">
@@ -21,13 +21,13 @@ La plataforma cuenta con un diseño responsivo y moderno, enfocado en la experie
   <img src="https://github.com/user-attachments/assets/d2f7ddef-269b-4f54-ae37-c2c5a69a03a4" width="48%" style="border-radius: 10px; border: 1px solid #30363d;" />
 </div>
 
-## 📌 Características Principales
+## Características Principales
 - **Gestión de Usuarios:** Registro, login y validación de perfiles únicos.
 - **Publicaciones Multimedia:** Sistema de posteos con soporte para múltiples imágenes (1:N).
 - **Interacción Social:** Sistema de "Reacciones" (N:M) y Comentarios (1:N) vinculados tanto al usuario como al post.
 - **Organización:** Clasificación de contenido mediante etiquetas utilizando tablas intermedias (N:M).
 
-## 📊 Arquitectura de Datos (DER)
+## Arquitectura de Datos (DER)
 El modelo relacional fue diseñado para separar estrictamente la **autoría** de la **interacción**, permitiendo un sistema de reacciones escalable y eficiente.
 
 <div align="center">
@@ -36,7 +36,7 @@ El modelo relacional fue diseñado para separar estrictamente la **autoría** de
   </div>
 </div>
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 ### Backend
 - **Node.js & Express:** Servidor API RESTful.
@@ -46,7 +46,7 @@ El modelo relacional fue diseñado para separar estrictamente la **autoría** de
 ### Frontend
 - **Arquitectura Limpia:** Uso de JavaScript moderno, HTML5 y CSS3 para una interfaz fluida sin dependencias pesadas.
 
-## 📂 Estructura del Repositorio
+## Estructura del Repositorio
 - `/Backend`: Modelos, controladores y configuración de la base de datos (Sequelize).
 - `/Frontend`: Vistas y lógica del lado del cliente.
 
