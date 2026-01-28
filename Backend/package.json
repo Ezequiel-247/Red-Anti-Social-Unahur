@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index",
-    "dev": "nodemon src/index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "seed": "node src/db/seeders/seed.js",
+    "deploy:seed": "node src/db/seeders/seed.js && node src/index.js"
   },
   "keywords": [],
   "author": "",
