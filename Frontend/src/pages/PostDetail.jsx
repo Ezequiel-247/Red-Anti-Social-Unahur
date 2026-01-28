@@ -3,8 +3,7 @@ import { useEffect, useState, useContext} from "react";
 import { UserContext } from "../context/UserContext"; 
 import PostItem from "../components/PostItem";
 import "../style/PostDetail.css"; 
-
-const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:3001";
+import { API_ROUTES } from "../config/api";
 
 const PostDetail = () => {
   const { id } = useParams();
@@ -16,7 +15,7 @@ const PostDetail = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const postRes = await fetch(`${BASE_URL}/posts/${id}`);
+        const postRes = await fetch(`${API_ROUTES.POSTS}/${id}`);
         if (!postRes.ok) throw new Error("Post no encontrado");
         const postData = await postRes.json();
         setPost(postData);
@@ -33,7 +32,7 @@ const handleComentario = async (e) => {
   e.preventDefault();
   if (!nuevoComentario.trim()) return;
 
-  const response = await fetch(`${BASE_URL}/comments`, {
+  const response = await fetch(API_ROUTES.COMMENTS, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

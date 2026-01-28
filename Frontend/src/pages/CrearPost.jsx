@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
 import { Link, useNavigate } from "react-router-dom";
-import "../style/CrearPost.css"; 
+import "../style/crearPost.css"; 
 import { API_ROUTES } from "../config/api";
 
 const CrearPost = () => {

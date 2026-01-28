@@ -92,7 +92,7 @@ const Layout = ({ children }) => {
             {/* Footer con redes sociales */}
             <footer className="footer">
                 <div className="footer-content">
-                    <p>© 2024 UnaHur Anti-Social - Desarrollado por Eduardo Ezequiel Ortiz</p>
+                    <p>© 2025 UnaHur Anti-Social - Desarrollado por Eduardo Ezequiel Ortiz</p>
                     <div className="social-icons">
                         <a href="https://www.linkedin.com/in/eduardo-ezequiel-ortiz-7815a526b/" target="_blank" rel="noopener noreferrer" title="LinkedIn">
                             <FaLinkedin />
