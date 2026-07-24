@@ -1,24 +1,33 @@
-import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import "../style/Layout.css";
 import BackgroundCarousel from "./BackgroundCarousel";
+import Avatar from "./Avatar";
 import { FaLinkedin, FaGithub, FaBriefcase } from "react-icons/fa";
 import logo from "../public/img/logo_unahur_anti_social.jpg";
 
 const Layout = ({ children }) => {
     const { user, setUser } = useContext(UserContext); // Obtenemos usuario y función para logout desde el contexto
-    const [menuOpen, setMenuOpen] = useState(false); // Estado para el menú hamburguesa
+    const navigate = useNavigate();
+    const location = useLocation();
 
     // Función para cerrar sesión: limpia usuario global y localStorage
     const handleLogout = () => {
         setUser(null);
-        setMenuOpen(false);
+        navigate("/");
     };
 
-    const toggleMenu = () => {
-        setMenuOpen(!menuOpen);
+    // Mismo guard que usa Home.jsx: si no hay sesión, primero pide login.
+    const handleCrearClick = () => {
+        if (!user) {
+            navigate("/login");
+            return;
+        }
+        navigate("/crear-post");
     };
+
+    const isActive = (path) => location.pathname === path;
 
     // SEGURIDAD: Efecto para limpiar la contraseña si detecta que está en el estado (por sesiones viejas)
     useEffect(() => {
@@ -33,61 +42,86 @@ const Layout = ({ children }) => {
             {/* Fondo animado global */}
             <BackgroundCarousel />
 
-            {/* Barra de navegación */}
-            <header className="navbar navbar-expand-lg navbar-dark bg-primary">
+            {/* Barra de navegación superior (siempre visible) */}
+            <header className="navbar navbar-dark bg-primary">
                 <div className="container-fluid">
-                        {/* Logo o nombre de la app que enlaza al home */}
-                        <Link to="/" className="navbar-brand fw-bold" 
-                        onClick={() => window.scrollTo(0, 0)}>
-                            <img src={logo} alt="Logo UnaHur" className="navbar-logo" />
-                            UnaHur Anti-Social
-                        </Link>
-                        
-                        <button className="navbar-toggler" type="button" onClick={toggleMenu}>
-                        <span className="navbar-toggler-icon"></span>
-                        </button>
+                    {/* Logo o nombre de la app que enlaza al home */}
+                    <Link to="/" className="navbar-brand fw-bold" onClick={() => window.scrollTo(0, 0)}>
+                        <img src={logo} alt="Logo UnaHur" className="navbar-logo" />
+                        UnaHur Anti-Social
+                    </Link>
 
-                    <div className={`collapse navbar-collapse ${menuOpen ? "show" : ""}`} id="navbarMenu">
-                        <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+                    {/* Links de navegación: solo en desktop, en mobile los reemplaza la barra inferior */}
+                    <ul className="navbar-nav-desktop">
+                        <li className="nav-item">
+                            <Link to="/" className={`nav-link ${isActive("/") || isActive("/home") ? "active" : ""}`}>Inicio</Link>
+                        </li>
+
+                        {user && (
                             <li className="nav-item">
-                                {/* Botón/Link "Inicio" que lleva a /home */}
-                                <Link to="/" className="nav-link" onClick={() => setMenuOpen(false)}>
-                                    Inicio
-                                </Link>
+                                <button onClick={handleCrearClick} className="nav-create-btn">
+                                    <i className="bi bi-plus-lg"></i> Crear
+                                </button>
                             </li>
-                        
-                            {user ? (
-                                <>
+                        )}
+
+                        {user ? (
+                            <>
                                 <li className="nav-item">
-                                    <Link to="/perfil" className="nav-link" onClick={() => setMenuOpen(false)}>
-                                        Mi Perfil
+                                    <Link to="/perfil" className={`nav-user-chip ${isActive("/perfil") ? "active" : ""}`}>
+                                        <Avatar user={user} size={30} className="nav-avatar" />
+                                        <span>{user.nombre}</span>
                                     </Link>
                                 </li>
                                 <li className="nav-item">
-                                    <button onClick={handleLogout} className="btn btn-outline-light fw-bold ms-lg-3 mt-2 mt-lg-0">
-                                        Cerrar Sesión
+                                    <button onClick={handleLogout} className="nav-logout-btn" aria-label="Cerrar sesión" title="Cerrar sesión">
+                                        <i className="bi bi-box-arrow-right"></i>
                                     </button>
                                 </li>
-
-                                </>
-                                ) : (
-                                <li className="nav-item">
-                                    <Link to="/login" className="nav-link" onClick={() => setMenuOpen(false)}>
-                                        Login
-                                    </Link>
-                                </li>    
-
-                                )}
-                        </ul>
-                    </div>
+                            </>
+                        ) : (
+                            <li className="nav-item">
+                                <Link to="/login" className="nav-login-btn">Ingresar</Link>
+                            </li>
+                        )}
+                    </ul>
                 </div>
             </header>
-            
-            {/* Fondo oscuro al abrir menú en mobile */}
-            {menuOpen && <div className="menu-backdrop" onClick={() => setMenuOpen(false)}></div>}
 
             {/* Aquí se renderiza el contenido de cada vista */}
             <main>{children}</main>
+
+            {/* Barra de navegación inferior (solo mobile), al estilo Instagram/LinkedIn */}
+            <nav className="bottom-nav" aria-label="Navegación principal">
+                <Link to="/" className={`bottom-nav-item ${isActive("/") || isActive("/home") ? "active" : ""}`} aria-label="Inicio">
+                    <i className="bi bi-house-door-fill"></i>
+                    <span>Inicio</span>
+                </Link>
+
+                <button onClick={handleCrearClick} className="bottom-nav-item bottom-nav-create" aria-label="Crear publicación">
+                    <i className="bi bi-plus-circle-fill"></i>
+                    <span>Crear</span>
+                </button>
+
+                {user ? (
+                    <Link to="/perfil" className={`bottom-nav-item ${isActive("/perfil") ? "active" : ""}`} aria-label="Mi perfil">
+                        <Avatar user={user} size={22} />
+                        <span>Perfil</span>
+                    </Link>
+                ) : (
+                    <Link to="/login" className={`bottom-nav-item ${isActive("/login") ? "active" : ""}`} aria-label="Iniciar sesión">
+                        <i className="bi bi-box-arrow-in-right"></i>
+                        <span>Ingresar</span>
+                    </Link>
+                )}
+
+                {user && (
+                    <button onClick={handleLogout} className="bottom-nav-item" aria-label="Cerrar sesión">
+                        <i className="bi bi-box-arrow-right"></i>
+                        <span>Salir</span>
+                    </button>
+                )}
+            </nav>
 
             {/* Footer con redes sociales */}
             <footer className="footer">

@@ -1,4 +1,4 @@
-const { Publicacion, Imagen, Usuario, Comentario, sequelize } = require('../db/models');
+const { Publicacion, Imagen, Usuario, Comentario, Etiqueta, sequelize } = require('../db/models');
 
 const obtenerPublicaciones = async (req, res) =>{
     try{
@@ -6,12 +6,13 @@ const obtenerPublicaciones = async (req, res) =>{
         
         const options = {
             include: [
-                { model: Usuario, as: 'usuario', attributes: ['nombre', 'id'] },
+                { model: Usuario, as: 'usuario', attributes: ['nombre', 'id', 'avatar'] },
                 { model: Imagen, as: 'imagenes' },
-                { 
-                    model: Comentario, 
+                { model: Etiqueta, as: 'etiquetas', attributes: ['id', 'nombre'], through: { attributes: [] } },
+                {
+                    model: Comentario,
                     as: 'comentarios',
-                    include: [{ model: Usuario, as: 'usuario', attributes: ['nombre', 'id'] }]
+                    include: [{ model: Usuario, as: 'usuario', attributes: ['nombre', 'id', 'avatar'] }]
                 }
             ],
             order: [['createdAt', 'DESC']]
@@ -34,12 +35,13 @@ const obtenerPublicacion = async (req, res) =>{
     try{
         const publicacion = await Publicacion.findByPk(id, {
             include: [
-                { model: Usuario, as: 'usuario', attributes: ['nombre', 'id'] },
+                { model: Usuario, as: 'usuario', attributes: ['nombre', 'id', 'avatar'] },
                 { model: Imagen, as: 'imagenes' },
-                { 
-                    model: Comentario, 
+                { model: Etiqueta, as: 'etiquetas', attributes: ['id', 'nombre'], through: { attributes: [] } },
+                {
+                    model: Comentario,
                     as: 'comentarios',
-                    include: [{ model: Usuario, as: 'usuario', attributes: ['nombre', 'id'] }]
+                    include: [{ model: Usuario, as: 'usuario', attributes: ['nombre', 'id', 'avatar'] }]
                 }
             ]
         })
@@ -61,10 +63,10 @@ const crearPublicacion = async (req, res) =>{
     // Iniciamos una transacción
     const t = await sequelize.transaction();
     try{
-        let { Tags, ...data } = req.body;
+        let { Tags, usuarioId, ...data } = req.body;
 
-        // Pasamos { transaction: t } a todas las operaciones de escritura
-        const publicacion = await Publicacion.create(data, { transaction: t });
+        // El autor de la publicación es siempre el usuario autenticado, no lo que venga en el body.
+        const publicacion = await Publicacion.create({ ...data, usuarioId: req.user.id }, { transaction: t });
         
         if (Tags) {
             const tagsArray = Array.isArray(Tags) ? Tags : [Tags];
@@ -94,6 +96,9 @@ const eliminarPublicacion = async (req, res) => {
         const publicacion = await Publicacion.findByPk(id);
         if (!publicacion){
             return res.status(404).json({ error: 'publicacion no encontrada' });
+        }
+        if (publicacion.usuarioId !== req.user.id) {
+            return res.status(403).json({ error: 'No tenés permiso para eliminar esta publicación' });
         }
         await publicacion.destroy();
         res.json({ mensaje: 'publicacion eliminada' });
@@ -147,11 +152,14 @@ const actualizarImagenDePublicacion = async (req, res) => {
 // Actualizar una publicación (descripción y etiquetas)
 const actualizarPublicacion = async (req, res) => {
     const { id } = req.params;
-    const { Tags, ...data } = req.body;
+    const { Tags, usuarioId, ...data } = req.body;
     try {
         const publicacion = await Publicacion.findByPk(id);
         if (!publicacion){
             return res.status(404).json({ error: 'Publicación no encontrada' });
+        }
+        if (publicacion.usuarioId !== req.user.id) {
+            return res.status(403).json({ error: 'No tenés permiso para editar esta publicación' });
         }
 
         await publicacion.update(data);

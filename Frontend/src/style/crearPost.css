@@ -4,9 +4,10 @@
   gap: 1rem;
   max-width: 600px;
   margin: auto;
-  background: white;
+  background: var(--color-surface);
   padding: 2rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
 }
 
 .crear-post-form textarea,
@@ -14,22 +15,23 @@
 .crear-post-form select {
   width: 100%;
   padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
 }
 
 .crear-post-form button {
   padding: 0.6rem;
-  background-color: #0077cc;
+  background-color: var(--color-primary);
   color: white;
   font-weight: bold;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
+  transition: background-color var(--transition-fast);
 }
 
 .crear-post-form button:hover {
-  background-color: #005fa3;
+  background-color: var(--color-primary-dark);
 }
 
 
@@ -37,7 +39,7 @@
   background-color: #d4edda;
   color: #155724;
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   border: 1px solid #c3e6cb;
   margin-bottom: 1rem;
   font-weight: bold;
@@ -47,7 +49,7 @@
   background-color: #f8d7da;
   color: #721c24;
   padding: 1rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   border: 1px solid #f5c6cb;
   margin-bottom: 1rem;
   font-weight: bold;
@@ -60,27 +62,25 @@
 
 /* Boton de Volver a Home */
 .btn-volver-home {
-
   margin-top: 2rem;
-  background: linear-gradient(45deg, #0077cc, #005fa3);
+  background: var(--color-primary);
   color: white;
   padding: 10px 25px;
-  border-radius: 30px;
+  border-radius: var(--radius-pill);
   font-weight: bold;
-  transition: all 0.3s ease-in-out;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  transition: all var(--transition-base);
+  box-shadow: var(--shadow-sm);
 }
 
 .btn-volver-home:hover {
-  background: linear-gradient(45deg, #005fa3, #0077cc);
+  background: var(--color-primary-dark);
   transform: scale(1.05)
 }
 
 
-/* Titulo de la Publicación */
 .post-detail-container h2 {
   font-size: 2rem;
-  color: #333;
+  color: var(--color-text);
   font-weight: bold;
   position: relative;
   display: inline-block;
@@ -92,7 +92,7 @@
   display: block;
   width: 60%;
   height: 4px;
-  background-color: #0077cc;
+  background-color: var(--color-primary);
   margin-top: 5px;
   border-radius: 2px;
 }
@@ -106,15 +106,15 @@
 
 .image-preview img {
   max-width: 100%;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
 }
 
 .remove-image-btn {
   position: absolute;
   top: 5px;
   right: 5px;
-  background: rgba(255, 0, 0, 0.8);
+  background: rgba(239, 68, 68, 0.9);
   color: white;
   border: none;
   border-radius: 50%;
@@ -128,7 +128,7 @@
 }
 
 .remove-image-btn:hover {
-  background: rgba(255, 0, 0, 1);
+  background: var(--color-danger);
 }
 
 /* Estilos para etiquetas */
@@ -142,39 +142,61 @@
   display: block;
 }
 
+.etiquetas-filtro {
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
 .etiquetas-list {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
 }
 
+.etiquetas-sin-resultados {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
 .etiqueta-badge {
   display: flex;
   align-items: center;
-  padding: 5px 10px;
-  border: 1px solid #ccc;
-  border-radius: 20px;
-  background: #f9f9f9;
+  padding: 6px 14px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
 }
 
+/* El checkbox real sigue en el DOM (accesibilidad/semántica), pero visualmente
+   el estado de "seleccionado" ya lo comunica el color de la píldora, como en
+   los selectores de intereses/temas de la mayoría de redes sociales. */
 .etiqueta-badge input {
-  margin-right: 5px;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .etiqueta-badge.selected {
-  background: #0077cc;
+  background: var(--color-primary);
   color: white;
-  border-color: #0077cc;
+  border-color: var(--color-primary);
 }
 
 .etiqueta-badge:hover {
-  background: #e0e0e0;
+  border-color: var(--color-primary);
+  transform: translateY(-1px);
 }
 
 .etiqueta-badge.selected:hover {
-  background: #005fa3;
+  background: var(--color-primary-dark);
 }
 
 /* Estilos para URLs de imágenes */
@@ -190,17 +212,17 @@
 }
 
 .btn-remove-url {
-  background-color: #dc3545 !important;
+  background-color: var(--color-danger) !important;
   padding: 0.5rem 1rem !important;
   width: auto;
 }
 
 .btn-remove-url:hover {
-  background-color: #c82333 !important;
+  background-color: var(--color-danger-dark) !important;
 }
 
 .btn-add-url {
-  background-color: #6c757d !important;
+  background-color: var(--color-text-muted) !important;
   margin-top: 5px;
   align-self: flex-start;
 }

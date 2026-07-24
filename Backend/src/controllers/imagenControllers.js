@@ -1,4 +1,4 @@
-const { Imagen} = require("../db/models");
+const { Imagen, Publicacion } = require("../db/models");
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
@@ -30,8 +30,13 @@ const obtenerImagenes = async(req,res)=>{
 const eliminarImagen = async (req,res) => {
     try{
         const {id} = req.params
-        const imagen = await Imagen.findByPk(id)
+        const imagen = await Imagen.findByPk(id, {
+            include: [{ model: Publicacion, as: 'publicacion' }]
+        })
         if (!imagen) return res.status(404).json({ error: 'Imagen no encontrada' });
+        if (imagen.publicacion.usuarioId !== req.user.id) {
+            return res.status(403).json({ error: 'No tenés permiso para eliminar esta imagen' });
+        }
 
         // Construir ruta absoluta al archivo y borrarlo si existe
         const rutaArchivo = path.join(__dirname, '../../public', imagen.ruta);

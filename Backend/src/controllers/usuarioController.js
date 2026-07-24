@@ -1,6 +1,8 @@
 const { Usuario} = require('../db/models');
 const bcrypt = require('bcrypt'); // Asegúrate de instalarlo: npm install bcrypt
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
+const path = require('path');
 
 const crearUsuario = async (req, res) => {
     try {
@@ -27,8 +29,9 @@ const obtenerUsuarios = async (req, res) => {
 const obtenerUsuario = async (req, res) => {
     const idUsuario = req.params.id
     try {
-      const usuarios = await Usuario.findByPk(idUsuario, { attributes: { exclude: ['contraseña'] } });
-      res.json(usuarios);
+      const usuario = await Usuario.findByPk(idUsuario, { attributes: { exclude: ['contraseña'] } });
+      if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+      res.json(usuario);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
@@ -38,6 +41,13 @@ const eliminarUsuario = async (req, res) => {
     try {
       const usuario = await Usuario.findByPk(req.params.id);
       if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+      if (usuario.id !== req.user.id) {
+        return res.status(403).json({ error: 'No tenés permiso para eliminar esta cuenta' });
+      }
+      if (usuario.avatar) {
+        const rutaAvatar = path.join(__dirname, '../public', usuario.avatar);
+        if (fs.existsSync(rutaAvatar)) fs.unlinkSync(rutaAvatar);
+      }
       await usuario.destroy();
       res.json({ mensaje: 'usuario eliminado' });
     } catch (error) {
@@ -49,7 +59,10 @@ const actualizarUsuario = async (req, res) => {
     try {
       const usuario = await Usuario.findByPk(req.params.id);
       if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
-      
+      if (usuario.id !== req.user.id) {
+        return res.status(403).json({ error: 'No tenés permiso para editar esta cuenta' });
+      }
+
       let datosActualizar = req.body;
       if (datosActualizar.contraseña) {
         datosActualizar.contraseña = await bcrypt.hash(datosActualizar.contraseña, 10);
@@ -61,6 +74,51 @@ const actualizarUsuario = async (req, res) => {
       res.status(400).json({ error: error.message });
     }
   }
+
+const actualizarAvatar = async (req, res) => {
+  try {
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+    if (usuario.id !== req.user.id) {
+      return res.status(403).json({ error: 'No tenés permiso para editar esta cuenta' });
+    }
+    if (!req.file) return res.status(400).json({ error: 'No se recibió ninguna imagen' });
+
+    // Borramos el avatar anterior del disco (si tenía) para no acumular archivos huérfanos
+    if (usuario.avatar) {
+      const rutaAnterior = path.join(__dirname, '../public', usuario.avatar);
+      if (fs.existsSync(rutaAnterior)) fs.unlinkSync(rutaAnterior);
+    }
+
+    const ruta = `/img/${req.file.filename}`;
+    await usuario.update({ avatar: ruta });
+
+    const { contraseña, ...usuarioSeguro } = usuario.toJSON();
+    res.json(usuarioSeguro);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const eliminarAvatar = async (req, res) => {
+  try {
+    const usuario = await Usuario.findByPk(req.params.id);
+    if (!usuario) return res.status(404).json({ error: 'Usuario no encontrado' });
+    if (usuario.id !== req.user.id) {
+      return res.status(403).json({ error: 'No tenés permiso para editar esta cuenta' });
+    }
+    if (usuario.avatar) {
+      const ruta = path.join(__dirname, '../public', usuario.avatar);
+      if (fs.existsSync(ruta)) fs.unlinkSync(ruta);
+    }
+    await usuario.update({ avatar: null });
+
+    const { contraseña, ...usuarioSeguro } = usuario.toJSON();
+    res.json(usuarioSeguro);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 
 //Esto esta en duda
 const obtenerPublicacionDeUsuario = async (req, res) => {
@@ -117,8 +175,8 @@ const login = async (req, res) => {
     
     // Generamos el Token JWT
     const token = jwt.sign(
-      { id: usuario.id, nombre: usuario.nombre }, 
-      process.env.JWT_SECRET || 'secreto_super_secreto', 
+      { id: usuario.id, nombre: usuario.nombre },
+      process.env.JWT_SECRET,
       { expiresIn: '24h' }
     );
 
@@ -133,6 +191,8 @@ module.exports = {
     obtenerUsuario,
     crearUsuario,
     actualizarUsuario,
+    actualizarAvatar,
+    eliminarAvatar,
     eliminarUsuario,
     obtenerPublicacionDeUsuario,
     obtenerComentarioDeUsuario,

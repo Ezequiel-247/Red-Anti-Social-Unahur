@@ -63,10 +63,14 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
           // CAMBIO IMPORTANTE: Aumentar el máximo a 100 para que entre el hash de bcrypt
           len: {
-              args: [5, 100], 
+              args: [5, 100],
               msg: "La contraseña debe tener entre 5 y 100 caracteres"
           }
       }
+    },
+    avatar: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
   }, {
     sequelize,

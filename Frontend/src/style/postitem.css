@@ -1,82 +1,132 @@
 .post-item {
-  border: 1px solid #ccc;
-  padding: 10px;
-  margin-bottom: 15px;
-  border-radius: 5px;
-  background-color: #fafafa;
+  border: 1px solid var(--color-border);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+  border-radius: var(--radius-md);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow var(--transition-base);
 }
 
+.post-item:hover {
+  box-shadow: var(--shadow-md);
+}
+
+/* Link al perfil del autor de un post/comentario: se ve como texto normal,
+   con feedback de color solo al pasar el mouse para no perder legibilidad. */
+.post-author-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.post-author-link:hover strong {
+  color: var(--color-primary);
+}
+
+/* Fila de cabecera del post: avatar + "Nombre dijo:" */
+.post-author-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.post-author-row p {
+  margin: 0;
+}
+
+/* Imagen del post: vive acá (no en Layout.css) porque es una responsabilidad
+   exclusiva de la tarjeta de publicación.
+   Proporción fija (4:3) para todas las fotos del feed: antes cada imagen tenía
+   una altura distinta según su tamaño original (height:auto + max-height),
+   lo que hacía que las tarjetas del feed quedaran desparejas. Con aspect-ratio
+   fijo todas las fotos ocupan el mismo espacio, como en Instagram/Twitter;
+   object-fit:cover recorta lo que sobra en vez de deformar la imagen.
+   max-height evita que en pantallas grandes (donde la tarjeta es más ancha)
+   la foto crezca demasiado y domine la tarjeta. */
 .post-item .post-img {
-  max-width: 100%;
-  height: auto;
-  margin-top: 10px;
-  border-radius: 5px;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  max-height: 360px;
+  object-fit: cover;
+  margin-top: var(--space-2);
+  border-radius: var(--radius-sm);
+  background-color: var(--color-surface-muted);
+  border: 1px solid var(--color-border);
 }
 
 .tag {
   display: inline-block;
-  background-color: #e0e0e0;
-  padding: 4px 8px;
-  border-radius: 10px;
+  background-color: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
   margin-right: 6px;
   margin-top: 5px;
   font-size: 0.85rem;
+  font-weight: 500;
 }
+/* Galería de imágenes en la vista de detalle de un post.
+   Única fuente de verdad para .post-images/.detalle-img: antes había
+   definiciones distintas y en conflicto en Layout.css y PostDetail.css. */
 .post-images {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-3);
+  margin-top: var(--space-3);
 }
 
 .detalle-img {
-  max-width: 100%;
-  border-radius: 6px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
+  width: 100%;
+  height: 220px;
   object-fit: cover;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.detalle-img:hover {
+  transform: scale(1.02);
 }
 
 /* Boton de Ver mas */
 .btn-ver-mas {
+  background-color: var(--color-primary);
+  color: white;
   font-weight: bold;
-  border-radius: 10px;
+  border: none;
+  border-radius: var(--radius-md);
   padding: 10px 20px;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: all var(--transition-base);
 }
 .icono-vermas {
   margin-right: 5px;
-  color: white !important;
+  color: white;
 }
 .btn-ver-mas:hover {
+  background-color: var(--color-primary-dark);
   transform: scale(1.05);
 }
 
 .btn-ver-comentarios {
   font-weight: bold;
   border: none;
-  color: #007bff;
+  background: none;
+  color: var(--color-primary);
   cursor: pointer;
   font-size: 0.9rem;
   padding: 5px 0;
   margin-top: 8px;
   text-decoration: underline;
   display: inline-block;
-  font-weight: 500;
 }
 
 .btn-ver-comentarios:hover {
-  color: #023c7a;
+  color: var(--color-primary-dark);
 }
 
-.comment-item {
-  font-size: 0.9rem;
-  margin: 8px 0;
-  padding: 8px 12px;
-  background-color: #f0f2f5; /* Color de fondo suave para el comentario */
-  border-radius: 15px;       /* Bordes redondeados */
-  color: #333;
-}
 
 /* --- ACCIONES DEL POST (Like, Comentarios, Eliminar) --- */
 .post-actions {
@@ -86,7 +136,7 @@
   width: 100%; /* Asegura que ocupe todo el ancho para que el margin-left funcione */
   margin-top: 15px;
   padding-top: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--color-border);
 }
 
 .post-actions-right {
@@ -101,11 +151,11 @@
   border: none;
   cursor: pointer;
   font-size: 1.3rem;
-  color: #6c757d;
+  color: var(--color-text-muted);
   display: flex;
   align-items: center;
   gap: 5px;
-  transition: transform 0.2s, color 0.2s;
+  transition: transform var(--transition-fast), color var(--transition-fast);
 }
 
 .btn-like:hover {
@@ -113,9 +163,9 @@
 }
 
 /* ESTADO ACTIVO: Corazón Rojo */
-.btn-like.liked, 
+.btn-like.liked,
 .btn-like.liked i {
-  color: #e0245e; /* Rojo */
+  color: var(--color-danger);
 }
 
 .like-count {
@@ -125,19 +175,128 @@
 
 .comments-count {
   margin: 0;
-  color: #6c757d;
+  color: var(--color-text-muted);
   font-size: 0.9rem;
 }
 
 .btn-delete {
   background: none;
   border: none;
-  color: #dc3545;
+  color: var(--color-danger);
   font-size: 1.2rem;
   cursor: pointer;
-  transition: color 0.2s;
+  transition: color var(--transition-fast);
 }
 
 .btn-delete:hover {
-  color: #a71d2a;
+  color: var(--color-danger-dark);
+}
+
+/* --- Comentarios individuales: wrapper + acciones mini (editar/borrar) --- */
+.comment-wrapper {
+  position: relative;
+}
+
+.comment-item {
+  font-size: 0.9rem;
+  margin: 8px 0;
+  padding: 8px 12px;
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-lg);
+  color: var(--color-text);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.comment-item .avatar-img,
+.comment-item .avatar-fallback {
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.comment-item p {
+  flex: 1;
+}
+
+.comment-actions-mini {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.btn-icon-mini {
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.btn-icon-mini:hover {
+  background: rgba(var(--color-primary-rgb), 0.1);
+  color: var(--color-primary);
+}
+
+.btn-icon-mini.delete:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--color-danger);
+}
+
+/* Edición inline de un comentario */
+.edit-comment-box {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  width: 100%;
+}
+
+.edit-comment-input {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+}
+
+.edit-comment-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px var(--color-primary-light);
+}
+
+.btn-save-comment,
+.btn-cancel-comment {
+  background: none;
+  border: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.btn-save-comment {
+  color: var(--color-success);
+}
+
+.btn-save-comment:hover {
+  background: rgba(47, 184, 114, 0.12);
+}
+
+.btn-cancel-comment {
+  color: var(--color-danger);
+}
+
+.btn-cancel-comment:hover {
+  background: rgba(239, 68, 68, 0.1);
 }

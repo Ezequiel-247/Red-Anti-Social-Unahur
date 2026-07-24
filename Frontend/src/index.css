@@ -1,68 +1,66 @@
+/* Design tokens: fuente única de verdad para colores, radios, sombras y espaciado.
+   Cualquier archivo de src/style puede usar estas variables (var(--color-primary), etc.)
+   porque :root es global a toda la página, sin importar el orden de imports. */
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+  /* Color de marca */
+  --color-primary: #4f7cff;
+  --color-primary-rgb: 79, 124, 255;
+  --color-primary-dark: #3a5fd9;
+  --color-primary-light: #eef2ff;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  /* Estados */
+  --color-success: #2fb872;
+  --color-success-dark: #24975d;
+  --color-danger: #ef4444;
+  --color-danger-dark: #c53030;
+  --color-warning: #f5a623;
 
+  /* Neutrales */
+  --color-text: #1f2430;
+  --color-text-muted: #6b7280;
+  --color-border: #e2e5ea;
+  --color-surface: #ffffff;
+  --color-surface-muted: #f5f6fa;
+
+  /* Radios */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  /* Sombras */
+  --shadow-sm: 0 2px 6px rgba(17, 24, 39, 0.08);
+  --shadow-md: 0 6px 16px rgba(17, 24, 39, 0.12);
+  --shadow-lg: 0 12px 30px rgba(17, 24, 39, 0.18);
+
+  /* Espaciado */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  /* Transiciones */
+  --transition-fast: 0.15s ease;
+  --transition-base: 0.25s ease;
+
+  --font-sans: 'Segoe UI', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+  font-family: var(--font-sans);
+  color-scheme: light;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
-  font-weight: 500;
-  color: #646cff;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #535bf2;
+*, *::before, *::after {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
   min-width: 320px;
   min-height: 100vh;
-}
-
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
-button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }

@@ -1,0 +1,63 @@
+.cropper-modal-card {
+  max-width: 480px;
+  width: 100%;
+}
+
+/* Área donde react-easy-crop dibuja la imagen: necesita altura fija y
+   position:relative (lo exige la librería). 4:3 para que coincida con la
+   proporción fija que usamos para mostrar las fotos en el feed. */
+.cropper-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  background: #111;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+}
+
+.cropper-zoom-slider {
+  width: 100%;
+  margin: var(--space-4) 0 var(--space-2);
+  accent-color: var(--color-primary);
+}
+
+.cropper-hint {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-align: center;
+  margin: 0 0 var(--space-2);
+}
+
+/* En mobile hay mucho más alto disponible que ancho: usamos ese espacio para
+   que el área de recorte sea más grande y sea más fácil ajustar con el dedo. */
+@media (max-width: 600px) {
+  .cropper-modal-card {
+    max-width: 100%;
+  }
+
+  .cropper-container {
+    height: min(60vh, 480px);
+  }
+}
+
+/* Botón para volver a abrir el recortador sobre una foto ya elegida */
+.edit-image-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 40px;
+  background: rgba(79, 124, 255, 0.9);
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.edit-image-btn:hover {
+  background: var(--color-primary);
+}

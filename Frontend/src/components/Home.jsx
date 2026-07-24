@@ -6,25 +6,20 @@ import "../style/Home.css";
 import { API_ROUTES } from "../config/api";
 
 const Home = () => {
-  const { user, setUser } = useContext(UserContext);
+  const { user } = useContext(UserContext);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); // Nuevo estado para controlar la carga
   const navigate = useNavigate();
-  
 
-  const handleLogout = () => {
-    setUser(null);
-    navigate("/");
-  };
-
+  // Mismo comportamiento que el botón "Crear" de la barra inferior/navbar:
+  // sin sesión, redirige directo a login (sin alert nativo).
   const handleCrearPost = () => {
-  if (!user) {
-    alert("Debes iniciar sesión para crear una publicación");
-    navigate("/login");
-    return;
-  }
-  navigate("/crear-post");
-};
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+    navigate("/crear-post");
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -60,7 +55,13 @@ const Home = () => {
         ) : posts.length === 0 ? (
           <p className="loading-text">No hay publicaciones recientes.</p>
         ) : (
-          posts.map((post) => <PostItem key={post.id} post={post} />)
+          posts.map((post) => (
+            <PostItem
+              key={post.id}
+              post={post}
+              onPostDeleted={(id) => setPosts((prev) => prev.filter((p) => p.id !== id))}
+            />
+          ))
         )}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { useEffect, useState, useContext} from "react";
 import { UserContext } from "../context/UserContext"; 
 import PostItem from "../components/PostItem";
@@ -7,9 +7,10 @@ import { API_ROUTES } from "../config/api";
 
 const PostDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
-  const { user } = useContext(UserContext); // Obtengo el usuario actual 
+  const { user } = useContext(UserContext); // Obtengo el usuario actual
   const [nuevoComentario, setNuevoComentario] = useState("");
 
   useEffect(() => {
@@ -36,6 +37,7 @@ const handleComentario = async (e) => {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      "Authorization": `Bearer ${user.token}`,
     },
     body: JSON.stringify({
       contenido: nuevoComentario,
@@ -64,7 +66,25 @@ const handleComentario = async (e) => {
   return (
     <div className="post-detail-container">
         {/* Reutilizamos la tarjeta PostItem pero ocultamos el botón 'Ver más' */}
-        <PostItem post={post} showVerMas={false} />
+        <PostItem
+          post={post}
+          showVerMas={false}
+          onPostDeleted={() => navigate("/")}
+          onCommentDeleted={(commentId) =>
+            setPost((prev) => ({
+              ...prev,
+              comentarios: prev.comentarios.filter((c) => c.id !== commentId),
+            }))
+          }
+          onCommentUpdated={(commentId, contenido) =>
+            setPost((prev) => ({
+              ...prev,
+              comentarios: prev.comentarios.map((c) =>
+                c.id === commentId ? { ...c, contenido } : c
+              ),
+            }))
+          }
+        />
 
         {/* Formulario para agregar un comentario nuevo: */}
           {user ? (

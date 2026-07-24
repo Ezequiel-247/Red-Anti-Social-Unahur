@@ -51,22 +51,22 @@ body {
 
 .logout-btn {
   padding: 0.6rem 1.2rem;
-  background-color: #e74c3c;
+  background-color: var(--color-danger);
   color: white;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   font-size: 1rem;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-fast);
 }
 
 .logout-btn:hover {
-  background-color: #c0392b;
+  background-color: var(--color-danger-dark);
 }
 .feature-box {
-  background-color: #f0f4ff;
-  border: 1px solid #c6d2ff;
-  border-radius: 8px;
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
   padding: 1rem;
   margin: 1rem auto 2rem;
   max-width: 600px;
@@ -82,35 +82,42 @@ body {
 }
 
 .action-btn {
-  background-color: #3498db;
+  background-color: var(--color-primary);
   color: white;
   padding: 0.7rem 1.4rem;
   border: none;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: background-color var(--transition-fast);
 }
 
 .action-btn:hover {
-  background-color: #2980b9;
+  background-color: var(--color-primary-dark);
 }
 
 /* Crear nueva publicación */
 .btn-publicar {
-  background: linear-gradient(to right, #007bff, #00bcd4); /* Degradado azul-turquesa */
+  background: var(--color-primary);
   color: white;
   font-weight: bold;
   padding: 10px 25px;
   border: none;
-  border-radius: 30px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
+  border-radius: var(--radius-pill);
+  box-shadow: var(--shadow-md);
+  transition: all var(--transition-base);
 }
 
 .btn-publicar:hover {
-  background: linear-gradient(to right, #0056b3, #0097a7); /* más oscuro al pasar el mouse */
+  background: var(--color-primary-dark);
   transform: scale(1.05);
+}
+
+/* En mobile ya está el botón "Crear" de la barra inferior: este queda redundante ahí. */
+@media (max-width: 991px) {
+  .btn-publicar {
+    display: none;
+  }
 }
 
 .home-container h1, .home-container h2 {

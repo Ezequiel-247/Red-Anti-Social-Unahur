@@ -2,7 +2,9 @@ const { Reaccion } = require('../db/models');
 
 // Agregar o quitar like (Toggle)
 const toggleReaccion = async (req, res) => {
-    const { usuarioId, publicacionId } = req.body;
+    // El usuario que reacciona es siempre el autenticado, nunca el que venga en el body.
+    const usuarioId = req.user.id;
+    const { publicacionId } = req.body;
     try {
         // Buscamos si ya existe el like
         const existente = await Reaccion.findOne({ where: { usuarioId, publicacionId } });

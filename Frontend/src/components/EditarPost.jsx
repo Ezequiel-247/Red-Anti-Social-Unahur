@@ -38,8 +38,8 @@ const EditarPost = () => {
 
                 setDescription(postData.descripcion);
                 // Mapear etiquetas del post a sus IDs
-                if (postData.Tags) {
-                    setSelectedEtiquetas(postData.Tags.map(t => t.id));
+                if (postData.etiquetas) {
+                    setSelectedEtiquetas(postData.etiquetas.map(t => t.id));
                 }
             } catch (error) {
                 console.error("Error cargando datos:", error);

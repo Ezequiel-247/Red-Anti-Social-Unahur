@@ -1,0 +1,90 @@
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 20, 30, 0.55);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: var(--space-4);
+  animation: modal-fade-in 0.15s ease-out;
+}
+
+@keyframes modal-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  max-width: 380px;
+  width: 100%;
+  padding: var(--space-5);
+  animation: modal-pop-in 0.18s ease-out;
+}
+
+@keyframes modal-pop-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-card h3 {
+  margin: 0 0 var(--space-2);
+  font-size: 1.15rem;
+  color: var(--color-text);
+}
+
+.modal-message {
+  margin: 0 0 var(--space-4);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}
+
+.modal-btn {
+  padding: 0.55rem 1.1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition-fast), transform var(--transition-fast);
+}
+
+.modal-btn:hover {
+  transform: scale(1.03);
+}
+
+.modal-btn-cancel {
+  background: var(--color-surface-muted);
+  color: var(--color-text);
+}
+
+.modal-btn-cancel:hover {
+  background: var(--color-border);
+}
+
+.modal-btn-primary {
+  background: var(--color-primary);
+  color: white;
+}
+
+.modal-btn-primary:hover {
+  background: var(--color-primary-dark);
+}
+
+.modal-btn-danger {
+  background: var(--color-danger);
+  color: white;
+}
+
+.modal-btn-danger:hover {
+  background: var(--color-danger-dark);
+}

@@ -6,17 +6,26 @@
     "start": "node src/index.js",
     "seed": "node src/db/seeders/seed.js",
     "deploy:seed": "node src/db/seeders/seed.js && node src/index.js",
-    "postinstall": "npm install pg"
+    "postinstall": "npm install pg",
+    "test": "jest --runInBand"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "description": "",
+  "jest": {
+    "testEnvironment": "node",
+    "setupFiles": [
+      "<rootDir>/test/jest.setup.js"
+    ],
+    "testTimeout": 15000
+  },
   "dependencies": {
     "bcrypt": "^6.0.0",
     "cors": "^2.8.5",
     "dotenv": "^17.2.3",
     "express": "^5.1.0",
+    "express-rate-limit": "^8.6.0",
     "joi": "^17.13.3",
     "jsonwebtoken": "^9.0.3",
     "multer": "^2.0.2",
@@ -29,7 +38,9 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "jest": "^30.4.2",
     "nodemon": "^3.1.10",
-    "sequelize-cli": "^6.6.3"
+    "sequelize-cli": "^6.6.3",
+    "supertest": "^7.2.2"
   }
 }

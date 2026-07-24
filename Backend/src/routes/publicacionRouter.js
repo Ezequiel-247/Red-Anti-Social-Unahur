@@ -2,6 +2,7 @@ const {Router} = require('express')
 const publicacionController = require('../controllers/publicacionController.js');
 const validarPublicacion = require('../middleware/validarPublicacion.js');
 const verifyToken = require('../middleware/authMiddleware.js');
+const { limits, fileFilter, nombreArchivoSeguro } = require('../middleware/imagenUploadOptions.js');
 const multer = require('multer');
 const path = require('path');
 const router = Router()
@@ -12,10 +13,18 @@ const storage = multer.diskStorage({
         cb(null, path.join(__dirname, '../public/img'));
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
+        // Nunca usar file.originalname tal cual: permite path traversal (ver imagenUploadOptions.js)
+        cb(null, nombreArchivoSeguro('', file.originalname));
     }
 });
-const upload = multer({ storage: storage });
+
+// Solo permitimos imágenes y limitamos el tamaño: antes se podía subir cualquier
+// archivo (sin filtro ni límite) y quedaba servido públicamente en /img.
+const upload = multer({
+    storage: storage,
+    limits,
+    fileFilter
+});
 
 /**
  * @swagger

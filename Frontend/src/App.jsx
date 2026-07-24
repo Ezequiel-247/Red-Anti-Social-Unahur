@@ -36,6 +36,8 @@ function App() {
             path="/perfil"
             element={user ? <Perfil /> : <Navigate to="/login" replace />}
           />
+          {/* Perfil de cualquier usuario (público, no requiere sesión para verlo) */}
+          <Route path="/perfil/:id" element={<Perfil />} />
 
           {/* Cualquier otra ruta va a home */}
           <Route path="*" element={<Navigate to="/" replace />} />
