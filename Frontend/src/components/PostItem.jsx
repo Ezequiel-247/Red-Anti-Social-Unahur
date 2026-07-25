@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect, useContext } from "react";
 import { UserContext } from "../context/UserContext";
+import { useToast } from "../context/ToastContext";
 import ConfirmModal from "./ConfirmModal";
 import Avatar from "./Avatar";
 import "../style/postitem.css";
@@ -17,6 +18,7 @@ const PostItem = ({
 }) => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const { showToast } = useToast();
   const [likes, setLikes] = useState([]);
   const [isLiked, setIsLiked] = useState(false);
   const [showAllComments, setShowAllComments] = useState(false);
@@ -41,7 +43,7 @@ const PostItem = ({
   }, [post.id, user]);
 
   const handleLike = async () => {
-    if (!user) return alert("Inicia sesión para dar like");
+    if (!user) return showToast("Iniciá sesión para dar like", "error");
 
     try {
       const res = await fetch(`${BASE_URL}/reactions/toggle`, {
@@ -73,7 +75,7 @@ const PostItem = ({
       if (res.ok) {
         onPostDeleted(post.id);
       } else {
-        alert("Error al eliminar la publicación");
+        showToast("Error al eliminar la publicación", "error");
       }
     } catch (error) {
       console.error("Error eliminando post:", error);
@@ -91,7 +93,7 @@ const PostItem = ({
       if (res.ok) {
         onCommentDeleted(commentId);
       } else {
-        alert("Error al eliminar comentario");
+        showToast("Error al eliminar comentario", "error");
       }
     } catch (error) {
       console.error("Error eliminando comentario:", error);

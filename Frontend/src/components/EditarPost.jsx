@@ -1,11 +1,13 @@
 import { useState, useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
+import { useToast } from "../context/ToastContext";
 import "../style/crearPost.css"; // Reutilizamos estilos
 import { API_ROUTES } from "../config/api";
 
 const EditarPost = () => {
     const { user } = useContext(UserContext);
+    const { showToast } = useToast();
     const { id } = useParams(); // Obtenemos el ID de la URL
     const navigate = useNavigate();
     
@@ -31,7 +33,7 @@ const EditarPost = () => {
                 
                 // Verificar permisos
                 if (user && postData.usuario?.id !== user.id && postData.usuarioId !== user.id) {
-                    alert("No tienes permiso para editar este post");
+                    showToast("No tenés permiso para editar este post", "error");
                     navigate("/");
                     return;
                 }

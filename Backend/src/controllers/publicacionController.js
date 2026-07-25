@@ -1,4 +1,4 @@
-const { Publicacion, Imagen, Usuario, Comentario, Etiqueta, sequelize } = require('../db/models');
+const { Publicacion, Imagen, Usuario, Comentario, Etiqueta, Notificacion, sequelize } = require('../db/models');
 const { simularEngagement } = require('../utils/engagementBot');
 
 const obtenerPublicaciones = async (req, res) =>{
@@ -99,18 +99,27 @@ const crearPublicacion = async (req, res) =>{
 }
 
 const eliminarPublicacion = async (req, res) => {
+    const t = await sequelize.transaction();
     try {
         const { id } = req.params
-        const publicacion = await Publicacion.findByPk(id);
+        const publicacion = await Publicacion.findByPk(id, { transaction: t });
         if (!publicacion){
+            await t.rollback();
             return res.status(404).json({ error: 'publicacion no encontrada' });
         }
         if (publicacion.usuarioId !== req.user.id) {
+            await t.rollback();
             return res.status(403).json({ error: 'No tenés permiso para eliminar esta publicación' });
         }
-        await publicacion.destroy();
+        // publicacionId en Notificacion es NOT NULL, así que hay que borrar las
+        // notificaciones generadas por likes/comentarios de este post antes de
+        // destruirlo: si no, el destroy() de abajo rompe por la FK.
+        await Notificacion.destroy({ where: { publicacionId: id }, transaction: t });
+        await publicacion.destroy({ transaction: t });
+        await t.commit();
         res.json({ mensaje: 'publicacion eliminada' });
     } catch (error) {
+        await t.rollback();
         res.status(500).json({ error: error.message });
     }
 }

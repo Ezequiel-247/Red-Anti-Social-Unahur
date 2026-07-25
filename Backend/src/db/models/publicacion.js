@@ -49,6 +49,16 @@ module.exports = (sequelize, DataTypes) => {
         otherKey: "usuarioId",
         as: "usuariosQueDieronLike"
       });
+
+      // Relacion con Notificaciones generadas por likes/comentarios de este post.
+      // onDelete explícito porque publicacionId en Notificacion es NOT NULL: sin
+      // esto, el default de Sequelize (SET NULL) choca contra esa restricción y
+      // rompe el borrado del post con un error de clave foránea.
+      this.hasMany(models.Notificacion, {
+        foreignKey: "publicacionId",
+        as: "notificaciones",
+        onDelete: "CASCADE"
+      });
     }
   }
   Publicacion.init({
