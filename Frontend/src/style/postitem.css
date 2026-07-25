@@ -39,15 +39,17 @@
    Proporción fija (4:3) para todas las fotos del feed: antes cada imagen tenía
    una altura distinta según su tamaño original (height:auto + max-height),
    lo que hacía que las tarjetas del feed quedaran desparejas. Con aspect-ratio
-   fijo todas las fotos ocupan el mismo espacio, como en Instagram/Twitter;
-   object-fit:cover recorta lo que sobra en vez de deformar la imagen.
+   fijo todas las fotos ocupan el mismo espacio, como en Instagram/Twitter.
+   object-fit:contain muestra la imagen completa sin recortar nada (a costa de
+   dejar franjas del background-color de abajo cuando la foto no es 4:3, por
+   ejemplo memes verticales); antes usaba cover, que recortaba contenido.
    max-height evita que en pantallas grandes (donde la tarjeta es más ancha)
    la foto crezca demasiado y domine la tarjeta. */
 .post-item .post-img {
   width: 100%;
   aspect-ratio: 4 / 3;
   max-height: 360px;
-  object-fit: cover;
+  object-fit: contain;
   margin-top: var(--space-2);
   border-radius: var(--radius-sm);
   background-color: var(--color-surface-muted);

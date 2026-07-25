@@ -7,4 +7,5 @@ export const API_ROUTES = {
     COMMENTS: `${BASE_URL}/comments`,
     POST_IMAGES: `${BASE_URL}/postimages`,
     ETIQUETAS: `${BASE_URL}/etiqueta`,
+    NOTIFICATIONS: `${BASE_URL}/notifications`,
 };

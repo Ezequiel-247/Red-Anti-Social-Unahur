@@ -1,4 +1,5 @@
 const { Publicacion, Imagen, Usuario, Comentario, Etiqueta, sequelize } = require('../db/models');
+const { simularEngagement } = require('../utils/engagementBot');
 
 const obtenerPublicaciones = async (req, res) =>{
     try{
@@ -83,6 +84,13 @@ const crearPublicacion = async (req, res) =>{
 
         await t.commit(); // Confirmamos los cambios si todo salió bien
         res.status(201).json(publicacion)
+
+        // Efecto secundario, fuera de la transacción y sin esperar (los likes/
+        // comentarios del bot llegan con delay): si falla no debe afectar la
+        // respuesta que ya se envió.
+        simularEngagement(publicacion).catch((error) => {
+            console.error('Error al simular engagement:', error.message);
+        });
     }
     catch(error){
         await t.rollback(); // Deshacemos cambios si algo falló

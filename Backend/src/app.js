@@ -19,6 +19,7 @@ const comentarioRouter = require("./routes/comentarioRouter")
 const imagenesRouter = require("./routes/imagenesRouter")
 const publicacionEtiquetaRouter = require("./routes/publicacionEtiquetaRouter")
 const reaccionRouter = require("./routes/reaccionRouter")
+const notificacionRouter = require("./routes/notificacionRouter")
 const cors = require('cors');
 const path = require('path');
 const fs = require('fs'); // Necesario para verificar carpetas
@@ -50,6 +51,7 @@ app.use('/comments',comentarioRouter);
 app.use('/postimages',imagenesRouter);
 app.use('/publicacionEtiqueta',publicacionEtiquetaRouter)
 app.use('/reactions', reaccionRouter);
+app.use('/notifications', notificacionRouter);
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
 
 // Asegurar que la carpeta de subidas exista

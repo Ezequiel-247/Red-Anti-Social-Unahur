@@ -16,15 +16,20 @@ async function seed() {
     const passwordHash = await bcrypt.hash('123456', 10);
 
     // --- Usuarios ---
+    // avatar: foto de perfil falsa via pravatar.cc (servicio publico de fotos
+    // placeholder, mismo criterio que imagenSeed con picsum.photos mas abajo).
+    // El parametro "u" fija siempre la misma cara para el mismo valor.
+    const avatarDe = (seed) => `https://i.pravatar.cc/150?u=${seed}`;
+
     const usuariosData = [
-        { nombre: 'Luna', email: 'luna@example.com' },
-        { nombre: 'Sol', email: 'sol@example.com' },
-        { nombre: 'Mauricio', email: 'mauricio@example.com' },
-        { nombre: 'Cami', email: 'cami@example.com' },
-        { nombre: 'Fede', email: 'fede@example.com' },
-        { nombre: 'Rocio', email: 'rocio@example.com' },
-        { nombre: 'Nico', email: 'nico@example.com' },
-        { nombre: 'Vale', email: 'vale@example.com' },
+        { nombre: 'Luna', email: 'luna@example.com', avatar: avatarDe('luna@example.com') },
+        { nombre: 'Sol', email: 'sol@example.com', avatar: avatarDe('sol@example.com') },
+        { nombre: 'Mauricio', email: 'mauricio@example.com', avatar: avatarDe('mauricio@example.com') },
+        { nombre: 'Cami', email: 'cami@example.com', avatar: avatarDe('cami@example.com') },
+        { nombre: 'Fede', email: 'fede@example.com', avatar: avatarDe('fede@example.com') },
+        { nombre: 'Rocio', email: 'rocio@example.com', avatar: avatarDe('rocio@example.com') },
+        { nombre: 'Nico', email: 'nico@example.com', avatar: avatarDe('nico@example.com') },
+        { nombre: 'Vale', email: 'vale@example.com', avatar: avatarDe('vale@example.com') },
     ];
     const usuarios = {};
     for (const u of usuariosData) {
@@ -40,22 +45,22 @@ async function seed() {
 
     // --- Publicaciones ---
     // { autor, descripcion, diasAtras, imagen (archivo local en public/img) o
-    //   imagenSeed (foto de Lorem Picsum, un servicio público de fotos de
-    //   placeholder: mismo seed = siempre la misma foto, no hay que descargar
-    //   ni guardar nada), tags }
+    //   imagenTag (foto real de loremflickr.com buscada por palabra clave,
+    //   asi coincide con el contenido del post; no hay que descargar ni
+    //   guardar nada), tags }
     const publicacionesData = [
         { autor: 'Luna', descripcion: '¡Hola Mundo! Bienvenidos a mi perfil en esta nueva red.', diasAtras: 9, imagen: 'hola_mundo.png', tags: ['unahur', 'tecnologia'] },
         { autor: 'Sol', descripcion: 'El mejor de la historia 🔟🇦🇷', diasAtras: 8, imagen: 'messi.jpg', tags: ['deportes'] },
         { autor: 'Luna', descripcion: 'Atrapándolos a todos 🔴⚪', diasAtras: 7, imagen: 'pokemon.png', tags: ['arte', 'animales'] },
-        { autor: 'Mauricio', descripcion: 'Repasando el modelo de la base de datos para la entrega de mañana, cero dormir 😅', diasAtras: 6, imagenSeed: 'estudio-database', tags: ['unahur', 'estudio'] },
-        { autor: 'Cami', descripcion: 'Primer día en la UNAHUR, ¡qué lindo campus! 🌳', diasAtras: 6, imagenSeed: 'campus-unahur', tags: ['unahur'] },
-        { autor: 'Fede', descripcion: 'Alguien que me pase los apuntes de la clase de ayer, no llegué a anotar todo', diasAtras: 5, imagenSeed: 'apuntes-clase', tags: ['estudio', 'unahur'] },
-        { autor: 'Rocio', descripcion: 'Fin de semana en la montaña, necesitaba desconectar un poco de las materias 🏔️', diasAtras: 4, imagenSeed: 'montana-viaje', tags: ['viajes', 'naturaleza'] },
-        { autor: 'Nico', descripcion: 'Terminé de armar mi primer proyecto con Node y Sequelize, se siente bien 💻', diasAtras: 3, imagenSeed: 'code-laptop', tags: ['tecnologia'] },
-        { autor: 'Vale', descripcion: 'Receta de la abuela para el domingo en familia 🍝', diasAtras: 2, imagenSeed: 'comida-pasta', tags: ['comida'] },
-        { autor: 'Sol', descripcion: 'Playlist para estudiar toda la noche antes del parcial 🎧', diasAtras: 1, imagenSeed: 'musica-audifonos', tags: ['musica', 'estudio'] },
-        { autor: 'Mauricio', descripcion: 'Alguien vio el partido de anoche? no lo puedo creer todavía', diasAtras: 1, imagenSeed: 'futbol-partido', tags: ['deportes'] },
-        { autor: 'Cami', descripcion: 'Adopté a este gato en el campus, se viene a clase conmigo 🐱', diasAtras: 0, imagenSeed: 'gato-adoptado', tags: ['animales'] },
+        { autor: 'Mauricio', descripcion: 'Repasando el modelo de la base de datos para la entrega de mañana, cero dormir 😅', diasAtras: 6, imagenTag: 'database,code', tags: ['unahur', 'estudio'] },
+        { autor: 'Cami', descripcion: 'Primer día en la UNAHUR, ¡qué lindo campus! 🌳', diasAtras: 6, imagenTag: 'university,campus', tags: ['unahur'] },
+        { autor: 'Fede', descripcion: 'Alguien que me pase los apuntes de la clase de ayer, no llegué a anotar todo', diasAtras: 5, imagenTag: 'notebook,notes', tags: ['estudio', 'unahur'] },
+        { autor: 'Rocio', descripcion: 'Fin de semana en la montaña, necesitaba desconectar un poco de las materias 🏔️', diasAtras: 4, imagenTag: 'mountain,hiking', tags: ['viajes', 'naturaleza'] },
+        { autor: 'Nico', descripcion: 'Terminé de armar mi primer proyecto con Node y Sequelize, se siente bien 💻', diasAtras: 3, imagenTag: 'laptop,programming', tags: ['tecnologia'] },
+        { autor: 'Vale', descripcion: 'Receta de la abuela para el domingo en familia 🍝', diasAtras: 2, imagenTag: 'pasta,food', tags: ['comida'] },
+        { autor: 'Sol', descripcion: 'Playlist para estudiar toda la noche antes del parcial 🎧', diasAtras: 1, imagenTag: 'headphones,music', tags: ['musica', 'estudio'] },
+        { autor: 'Mauricio', descripcion: 'Alguien vio el partido de anoche? no lo puedo creer todavía', diasAtras: 1, imagenTag: 'soccer,football', tags: ['deportes'] },
+        { autor: 'Cami', descripcion: 'Adopté a este gato en el campus, se viene a clase conmigo 🐱', diasAtras: 0, imagenTag: 'cat,kitten', tags: ['animales'] },
     ];
 
     const publicaciones = [];
@@ -72,8 +77,11 @@ async function seed() {
 
         if (p.imagen) {
             await Imagen.create({ ruta: `/img/${p.imagen}`, publicacionId: publicacion.id });
-        } else if (p.imagenSeed) {
-            await Imagen.create({ ruta: `https://picsum.photos/seed/${p.imagenSeed}/800/600`, publicacionId: publicacion.id });
+        } else if (p.imagenTag) {
+            // loremflickr busca fotos reales por palabra clave (a diferencia de
+            // picsum.photos, donde el "seed" solo fija una foto random fija sin
+            // relacion con el contenido del post).
+            await Imagen.create({ ruta: `https://loremflickr.com/800/600/${p.imagenTag}`, publicacionId: publicacion.id });
         }
 
         publicaciones.push({ ...p, instancia: publicacion });

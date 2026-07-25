@@ -1,4 +1,5 @@
-const { Comentario } = require('../db/models')
+const { Comentario, Publicacion } = require('../db/models')
+const { notificarComentario } = require('./notificacionController')
 
 const crearComentario = async (req, res) => {
     try {
@@ -6,8 +7,19 @@ const crearComentario = async (req, res) => {
       // quien está autenticado, para que no se pueda comentar en nombre de otro.
       const comentario = await Comentario.create({ ...req.body, usuarioId: req.user.id })
       res.status(201).json(comentario)
+
+      // La notificación es un efecto secundario: si falla, no debe afectar
+      // la respuesta que ya se envió.
+      const publicacion = await Publicacion.findByPk(comentario.publicacionId)
+      if (publicacion) {
+        await notificarComentario(comentario, publicacion)
+      }
     } catch (error) {
-      res.status(400).json({ error: error.message })
+      if (!res.headersSent) {
+        res.status(400).json({ error: error.message })
+      } else {
+        console.error('Error al generar notificación de comentario:', error.message)
+      }
     }
 }
 

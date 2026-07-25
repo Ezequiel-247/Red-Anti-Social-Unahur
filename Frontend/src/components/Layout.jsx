@@ -4,6 +4,7 @@ import { UserContext } from "../context/UserContext";
 import "../style/Layout.css";
 import BackgroundCarousel from "./BackgroundCarousel";
 import Avatar from "./Avatar";
+import NotificationBell from "./NotificationBell";
 import { FaLinkedin, FaGithub, FaBriefcase } from "react-icons/fa";
 import logo from "../public/img/logo_unahur_anti_social.jpg";
 
@@ -68,6 +69,9 @@ const Layout = ({ children }) => {
                         {user ? (
                             <>
                                 <li className="nav-item">
+                                    <NotificationBell dropdownPosition="down" />
+                                </li>
+                                <li className="nav-item">
                                     <Link to="/perfil" className={`nav-user-chip ${isActive("/perfil") ? "active" : ""}`}>
                                         <Avatar user={user} size={30} className="nav-avatar" />
                                         <span>{user.nombre}</span>
@@ -102,6 +106,13 @@ const Layout = ({ children }) => {
                     <i className="bi bi-plus-circle-fill"></i>
                     <span>Crear</span>
                 </button>
+
+                {user && (
+                    <div className="bottom-nav-item bottom-nav-notifications">
+                        <NotificationBell dropdownPosition="up" />
+                        <span>Avisos</span>
+                    </div>
+                )}
 
                 {user ? (
                     <Link to="/perfil" className={`bottom-nav-item ${isActive("/perfil") ? "active" : ""}`} aria-label="Mi perfil">
