@@ -103,11 +103,20 @@ const NotificationBell = ({ dropdownPosition = "down" }) => {
                 <div className={`notification-dropdown notification-dropdown-${dropdownPosition}`}>
                     <div className="notification-dropdown-header">
                         <span>Notificaciones</span>
-                        {noLeidas > 0 && (
-                            <button className="notification-mark-all" onClick={marcarTodasLeidas}>
-                                Marcar todas como leídas
+                        <div className="notification-header-actions">
+                            {noLeidas > 0 && (
+                                <button className="notification-mark-all" onClick={marcarTodasLeidas}>
+                                    Marcar todas como leídas
+                                </button>
+                            )}
+                            <button
+                                className="notification-close-btn"
+                                onClick={() => setAbierto(false)}
+                                aria-label="Cerrar notificaciones"
+                            >
+                                <i className="bi bi-x-lg"></i>
                             </button>
-                        )}
+                        </div>
                     </div>
 
                     {notificaciones.length === 0 ? (

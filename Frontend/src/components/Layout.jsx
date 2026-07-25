@@ -97,7 +97,7 @@ const Layout = ({ children }) => {
 
             {/* Barra de navegación inferior (solo mobile), al estilo Instagram/LinkedIn */}
             <nav className="bottom-nav" aria-label="Navegación principal">
-                <Link to="/" className={`bottom-nav-item ${isActive("/") || isActive("/home") ? "active" : ""}`} aria-label="Inicio">
+                <Link to="/" className={`bottom-nav-item bottom-nav-home ${isActive("/") || isActive("/home") ? "active" : ""}`} aria-label="Inicio">
                     <i className="bi bi-house-door-fill"></i>
                     <span>Inicio</span>
                 </Link>
@@ -115,19 +115,19 @@ const Layout = ({ children }) => {
                 )}
 
                 {user ? (
-                    <Link to="/perfil" className={`bottom-nav-item ${isActive("/perfil") ? "active" : ""}`} aria-label="Mi perfil">
+                    <Link to="/perfil" className={`bottom-nav-item bottom-nav-profile ${isActive("/perfil") ? "active" : ""}`} aria-label="Mi perfil">
                         <Avatar user={user} size={22} />
                         <span>Perfil</span>
                     </Link>
                 ) : (
-                    <Link to="/login" className={`bottom-nav-item ${isActive("/login") ? "active" : ""}`} aria-label="Iniciar sesión">
+                    <Link to="/login" className={`bottom-nav-item bottom-nav-profile ${isActive("/login") ? "active" : ""}`} aria-label="Iniciar sesión">
                         <i className="bi bi-box-arrow-in-right"></i>
                         <span>Ingresar</span>
                     </Link>
                 )}
 
                 {user && (
-                    <button onClick={handleLogout} className="bottom-nav-item" aria-label="Cerrar sesión">
+                    <button onClick={handleLogout} className="bottom-nav-item bottom-nav-logout" aria-label="Cerrar sesión">
                         <i className="bi bi-box-arrow-right"></i>
                         <span>Salir</span>
                     </button>

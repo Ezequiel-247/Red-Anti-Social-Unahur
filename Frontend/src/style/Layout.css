@@ -179,8 +179,13 @@ main {
 
 /* Footer */
 .footer {
-  background-color: rgba(var(--color-primary-rgb), 0.15);
-  backdrop-filter: blur(5px);
+  /* Antes era un 15% de opacidad: sobre el carrusel de fondo el texto quedaba
+     con muy poco contraste y variaba según la foto. Usamos el mismo tono
+     oscuro que la bottom-nav para que el pie se lea siempre y, en mobile,
+     ambas barras se vean como una sola franja continua en vez de una unión
+     translúcida contra otra opaca. */
+  background-color: rgba(30, 42, 82, 0.95);
+  backdrop-filter: blur(8px);
   color: white;
   padding: 1.5rem 0;
   margin-top: auto;
@@ -295,6 +300,15 @@ main {
     color: white;
     background: rgba(255, 255, 255, 0.08);
   }
+
+  /* Reordenamos visualmente los ítems (el orden en el DOM se mantiene igual,
+     esto es solo maquetado) para que "Crear" quede siempre al medio de la barra,
+     sin importar si el usuario está logueado (5 ítems) o no (3 ítems). */
+  .bottom-nav-home { order: 1; }
+  .bottom-nav-notifications { order: 2; }
+  .bottom-nav-create { order: 3; }
+  .bottom-nav-profile { order: 4; }
+  .bottom-nav-logout { order: 5; }
 
   /* Botón "Crear" destacado en el centro, como el (+) de Instagram */
   .bottom-nav-create {

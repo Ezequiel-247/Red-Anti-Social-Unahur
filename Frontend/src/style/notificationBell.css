@@ -62,6 +62,12 @@
   font-weight: 700;
 }
 
+.notification-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
 .notification-mark-all {
   background: none;
   border: none;
@@ -73,6 +79,23 @@
 
 .notification-mark-all:hover {
   text-decoration: underline;
+}
+
+/* Oculto por defecto: en desktop alcanza con clickear afuera para cerrar
+   el dropdown. Se muestra en mobile porque ahí el panel pasa a fullscreen. */
+.notification-close-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--color-text-muted);
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.notification-close-btn:hover {
+  color: var(--color-text);
 }
 
 .notification-empty {
@@ -120,4 +143,27 @@
 .notification-time {
   font-size: 0.75rem;
   color: var(--color-text-muted);
+}
+
+/* En mobile el dropdown "up" (barra inferior) pasa a ocupar toda la pantalla
+   en vez de un cuadro chico flotando sobre la bottom-nav, que quedaba muy
+   apretado y se podía cortar contra los bordes. Deja la bottom-nav visible
+   abajo para poder cerrarlo tocando afuera o con el botón de cerrar. */
+@media (max-width: 991px) {
+  .notification-dropdown-up {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 76px;
+    width: 100%;
+    max-width: 100%;
+    max-height: none;
+    border-radius: 0;
+    z-index: 1100;
+  }
+
+  .notification-close-btn {
+    display: inline-flex;
+  }
 }
