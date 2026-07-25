@@ -1,4 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
+import { createPortal } from "react-dom";
 import { useNavigate, useLocation } from "react-router-dom";
 import { UserContext } from "../context/UserContext";
 import Avatar from "./Avatar";
@@ -35,6 +36,10 @@ const NotificationBell = ({ dropdownPosition = "down" }) => {
     const [notificaciones, setNotificaciones] = useState([]);
     const [abierto, setAbierto] = useState(false);
     const contenedorRef = useRef(null);
+    // El dropdown "up" se monta con un portal en <body> (ver más abajo), así
+    // que queda fuera del DOM de contenedorRef: sin esta ref, cualquier click
+    // adentro del panel se interpretaría como "click afuera" y lo cerraría.
+    const dropdownRef = useRef(null);
 
     // Se pide al backend al cargar la app y en cada navegación (a propósito
     // no usamos polling para no generar requests periódicos al server free).
@@ -54,7 +59,9 @@ const NotificationBell = ({ dropdownPosition = "down" }) => {
     // Cierra el dropdown al hacer click afuera.
     useEffect(() => {
         const handleClickFuera = (e) => {
-            if (contenedorRef.current && !contenedorRef.current.contains(e.target)) {
+            const dentroDelBoton = contenedorRef.current?.contains(e.target);
+            const dentroDelDropdown = dropdownRef.current?.contains(e.target);
+            if (!dentroDelBoton && !dentroDelDropdown) {
                 setAbierto(false);
             }
         };
@@ -88,6 +95,53 @@ const NotificationBell = ({ dropdownPosition = "down" }) => {
         }).catch((error) => console.error("Error al marcar todas como leídas:", error));
     };
 
+    const dropdownContent = (
+        <div
+            className={`notification-dropdown notification-dropdown-${dropdownPosition}`}
+            ref={dropdownRef}
+        >
+            <div className="notification-dropdown-header">
+                <span>Notificaciones</span>
+                <div className="notification-header-actions">
+                    {noLeidas > 0 && (
+                        <button className="notification-mark-all" onClick={marcarTodasLeidas}>
+                            Marcar todas como leídas
+                        </button>
+                    )}
+                    <button
+                        className="notification-close-btn"
+                        onClick={() => setAbierto(false)}
+                        aria-label="Cerrar notificaciones"
+                    >
+                        <i className="bi bi-x-lg"></i>
+                    </button>
+                </div>
+            </div>
+
+            {notificaciones.length === 0 ? (
+                <p className="notification-empty">No tenés notificaciones todavía.</p>
+            ) : (
+                <ul className="notification-list">
+                    {notificaciones.map((n) => (
+                        <li
+                            key={n.id}
+                            className={`notification-item ${n.leida ? "" : "unread"}`}
+                            onClick={() => marcarLeidaYNavegar(n)}
+                        >
+                            <Avatar user={n.actor} size={36} />
+                            <div className="notification-text">
+                                <p>
+                                    <strong>{n.actor?.nombre}</strong> {mensajePorTipo[n.tipo] || "interactuó con tu publicación"}
+                                </p>
+                                <span className="notification-time">{tiempoRelativo(n.createdAt)}</span>
+                            </div>
+                        </li>
+                    ))}
+                </ul>
+            )}
+        </div>
+    );
+
     return (
         <div className="notification-bell" ref={contenedorRef}>
             <button
@@ -99,49 +153,10 @@ const NotificationBell = ({ dropdownPosition = "down" }) => {
                 {noLeidas > 0 && <span className="notification-badge">{noLeidas > 9 ? "9+" : noLeidas}</span>}
             </button>
 
-            {abierto && (
-                <div className={`notification-dropdown notification-dropdown-${dropdownPosition}`}>
-                    <div className="notification-dropdown-header">
-                        <span>Notificaciones</span>
-                        <div className="notification-header-actions">
-                            {noLeidas > 0 && (
-                                <button className="notification-mark-all" onClick={marcarTodasLeidas}>
-                                    Marcar todas como leídas
-                                </button>
-                            )}
-                            <button
-                                className="notification-close-btn"
-                                onClick={() => setAbierto(false)}
-                                aria-label="Cerrar notificaciones"
-                            >
-                                <i className="bi bi-x-lg"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    {notificaciones.length === 0 ? (
-                        <p className="notification-empty">No tenés notificaciones todavía.</p>
-                    ) : (
-                        <ul className="notification-list">
-                            {notificaciones.map((n) => (
-                                <li
-                                    key={n.id}
-                                    className={`notification-item ${n.leida ? "" : "unread"}`}
-                                    onClick={() => marcarLeidaYNavegar(n)}
-                                >
-                                    <Avatar user={n.actor} size={36} />
-                                    <div className="notification-text">
-                                        <p>
-                                            <strong>{n.actor?.nombre}</strong> {mensajePorTipo[n.tipo] || "interactuó con tu publicación"}
-                                        </p>
-                                        <span className="notification-time">{tiempoRelativo(n.createdAt)}</span>
-                                    </div>
-                                </li>
-                            ))}
-                        </ul>
-                    )}
-                </div>
-            )}
+            {abierto &&
+                (dropdownPosition === "up"
+                    ? createPortal(dropdownContent, document.body)
+                    : dropdownContent)}
         </div>
     );
 };
